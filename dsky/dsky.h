@@ -36,49 +36,72 @@
 #define DSKY_PROG_ERRORS  						2
 #define DSKY_PROG_ASCEND  						3
 #define DSKY_PROG_CIRC_AFTER_ASCEND  			4
+#define DSKY_PROG_CIRC_AFTER_TRANSFER  			5
+#define DSKY_PROG_LAND  						6
 //var DSKY_PROG_INSERTION
 //var DSKY_PROG_TRANSFER
-#define DSKY_PROG_CIRC_AFTER_TRANSFER  			7
 //var DSKY_PROG_DEORBIT
-#define DSKY_PROG_LAND  						9
-//---- VERB --------------------------------------------------------------------
-#define DSKY_VERB_LAMP_TEST  					35				// displays "8" on all segments, activates all status lamps & bar graph segments. NOUN must be 00
-#define DSKY_VERB_CHANGE_PROGRAM  				37     			// changes program to the one given by NOUN
-#define DSKY_VERB_DISPLAY_ON_D51  				21     			// displays information with code given by NOUN on 5-digit display row 1. NOUN can be a resource or flight information
-#define DSKY_VERB_DISPLAY_ON_D52  				22     			// displays information with code given by NOUN on 5-digit display row 2. NOUN can be a resource or flight information
-#define DSKY_VERB_DISPLAY_ON_D53  				23     			// displays information with code given by NOUN on 5-digit display row 3. NOUN can be a resource or flight information
-#define DSKY_VERB_DISPLAY_ON_D81  				24     			// displays information with code give by NOUN on 8-digit display 1. NOUN can be a resource or flight information
-#define DSKY_VERB_DISPLAY_ON_D82  				25     			// displays information with code give by NOUN on 8-digit display 2. NOUN can be a resource or flight information
-#define DSKY_VERB_DISPLAY_ON_B1  				26      		// display relative resource information (cur/tot) on bar graph 1. NOUN must be a resource with (cur/tot) data
-#define DSKY_VERB_DISPLAY_ON_B2  				27      		// display relative resource information (cur/tot) on bar graph 2. NOUN must be a resource with (cur/tot) data
-#define DSKY_VERB_DISPLAY_ON_B3  				28      		// display relative resource information (cur/tot) on bar graph 3. NOUN must be a resource with (cur/tot) data
-#define DSKY_VERB_RIGHTSHIFT_1  				41       		// right-shifts the display by one segment. NOUN must match a digit display
-#define DSKY_VERB_RIGHTSHIFT_2  				42       		// right-shifts the display by two segments. NOUN must match a digit display
-#define DSKY_VERB_RIGHTSHIFT_3  				43       		// right-shifts the display by three segments. NOUN must match a digit display
-#define DSKY_VERB_LEFTSHIFT_1  					46        		// left-shifts the display by one segment. NOUN must match a digit display
-#define DSKY_VERB_LEFTSHIFT_2  					47        		// left-shifts the display by two segments. NOUN must match a digit display
-#define DSKY_VERB_LEFTSHIFT_3  					48        		// left-shifts the display by three segments. NOUN must match a digit display
-#define DSKY_VERB_FLEXSHIFT  					49          	// complex verb that allow successive left/right shifting of a display with the DSKY +/- buttons. NOUN must match a digit display
-#define DSKY_VERB_STARTSTANDBY  				50       		// enter standby mode. this will stop the digit-display and info light updates, the keyboard
-#define DSKY_VERB_ENDSTANDBY  					51         		// resume normal mode, digit-displays and info lights will update again
-#define DSKY_VERB_RESTART  						52            	// request a restart. this will trigger dsky_init() again.
+// range checks
+#define DSKY_MIN_PROGS	0
+#define DSKY_MAX_PROGS	6
 
+//---- VERB --------------------------------------------------------------------
+
+#define DSKY_VERB_DISPLAY_ON_D51  				0     			// displays information with code given by NOUN on 5-digit display row 1. NOUN can be a resource or flight information
+#define DSKY_VERB_DISPLAY_ON_D52  				1     			// displays information with code given by NOUN on 5-digit display row 2. NOUN can be a resource or flight information
+#define DSKY_VERB_DISPLAY_ON_D53  				2     			// displays information with code given by NOUN on 5-digit display row 3. NOUN can be a resource or flight information
+#define DSKY_VERB_DISPLAY_ON_D81  				3     			// displays information with code give by NOUN on 8-digit display 1. NOUN can be a resource or flight information
+#define DSKY_VERB_DISPLAY_ON_D82  				4     			// displays information with code give by NOUN on 8-digit display 2. NOUN can be a resource or flight information
+#define DSKY_VERB_DISPLAY_ON_B1  				5      			// display relative resource information (cur/tot) on bar graph 1. NOUN must be a resource with (cur/tot) data
+#define DSKY_VERB_DISPLAY_ON_B2  				6      			// display relative resource information (cur/tot) on bar graph 2. NOUN must be a resource with (cur/tot) data
+#define DSKY_VERB_DISPLAY_ON_B3  				7      			// display relative resource information (cur/tot) on bar graph 3. NOUN must be a resource with (cur/tot) data
+#define DSKY_VERB_RIGHTSHIFT_1  				8       		// right-shifts the display by one segment. NOUN must match a digit display
+#define DSKY_VERB_LAMP_TEST  					9				// displays "8" on all segments, activates all status lamps & bar graph segments. NOUN must be 00
+#define DSKY_VERB_CHANGE_PROGRAM  				10    			// changes program to the one given by NOUN
+#define DSKY_VERB_RIGHTSHIFT_2  				11       		// right-shifts the display by two segments. NOUN must match a digit display
+#define DSKY_VERB_RIGHTSHIFT_3  				12       		// right-shifts the display by three segments. NOUN must match a digit display
+#define DSKY_VERB_LEFTSHIFT_1  					13        		// left-shifts the display by one segment. NOUN must match a digit display
+#define DSKY_VERB_LEFTSHIFT_2  					14        		// left-shifts the display by two segments. NOUN must match a digit display
+#define DSKY_VERB_LEFTSHIFT_3  					15        		// left-shifts the display by three segments. NOUN must match a digit display
+#define DSKY_VERB_FLEXSHIFT  					16          	// complex verb that allow successive left/right shifting of a display with the DSKY +/- buttons. NOUN must match a digit display
+#define DSKY_VERB_STARTSTANDBY  				17       		// enter standby mode. this will stop the digit-display and info light updates, the keyboard
+#define DSKY_VERB_ENDSTANDBY  					18         		// resume normal mode, digit-displays and info lights will update again
+#define DSKY_VERB_RESTART  						19            	// request a restart. this will trigger dsky_init() again.
+// range checks
+#define DSKY_MIN_VERBS	0
+#define DSKY_MAX_VERBS	19
 
 //---- NOUN --------------------------------------------------------------------
 // DSKY display id nouns
+// 7-segment displays
 #define DSKY_NOUN_DISP_D51  					0               // numeric display row 1
 #define DSKY_NOUN_DISP_D52  					1               // numeric display row 2
 #define DSKY_NOUN_DISP_D53  					2               // numeric display row 3
 #define DSKY_NOUN_DISP_D81  					3               // 8-digit display 1
 #define DSKY_NOUN_DISP_D82  					4               // 8-digit display 2
+// range checks
+#define DSKY_MIN_NOUN_DIGITDISPLAY	0
+#define DSKY_MAX_NOUN_DIGITDISPLAY	4
+
+// bar displays
 #define DSKY_NOUN_DISP_B1  						5               // bar display 1
 #define DSKY_NOUN_DISP_B2  						6               // bar display 2
 #define DSKY_NOUN_DISP_B3  						7               // bar display 3
+#define DSKY_NOUN_DISP_B4  						8               // bar display 4
+// range checks
+#define DSKY_MIN_NOUN_BARDISPLAY	5
+#define DSKY_MAX_NOUN_BARDISPLAY	7			// @todo B4 isn't used in the code yet
+
+// display factors for the 7-segment displays
 #define DSKY_NOUN_DISP_D51_FACTOR  				9             	// shift-factor for D51
 #define DSKY_NOUN_DISP_D52_FACTOR  				10             	// shift-factor for D52
 #define DSKY_NOUN_DISP_D53_FACTOR  				11             	// shift-factor for D53
 #define DSKY_NOUN_DISP_D81_FACTOR  				12             	// shift-factor for D81
 #define DSKY_NOUN_DISP_D82_FACTOR  				13             	// shift-factor for D82
+// range checks
+#define DSKY_MIN_NOUN_DISPLAYFACTOR	9
+#define DSKY_MAX_NOUN_DISPLAYFACTOR	13
+
 // flight information nouns
 #define DSKY_NOUN_FI_ORBIT_AP  					14              // apoapsis (m to sea level)
 #define DSKY_NOUN_FI_ORBIT_PE  					15              // periapsis (m to sea level)
@@ -106,36 +129,35 @@
 #define DSKY_NOUN_FI_ATT_PITCH  				37              // Vessel Pitch relative to surface (degrees)
 #define DSKY_NOUN_FI_ATT_ROLL  					38              // Vessel Roll relative to surface (degrees)
 #define DSKY_NOUN_FI_ATT_HDG  					39              // Vessel Heading relative to surface (degrees)
+// range checks
+#define DSKY_MIN_NOUN_FI	14
+#define DSKY_MAX_NOUN_FI	39
+
 // resource nouns
-#define DSKY_NOUN_RES_LIQUIDFUEL_TOTAL  		51        		// Liquid Fuel Total
-#define DSKY_NOUN_RES_LIQUIDFUEL  				52              // Liquid Fuel remaining
-#define DSKY_NOUN_RES_LIQUIDFUEL_STAGE_TOTAL  	53  			// Liquid Fuel Total (stage)
-#define DSKY_NOUN_RES_LIQUIDFUEL_STAGE  		54        		// Liquid Fuel remaining (stage)
-#define DSKY_NOUN_RES_OXIDIZER_TOTAL  			55          	// Oxidizer Total
-#define DSKY_NOUN_RES_OXIDIZER  				56              // Oxidizer remaining
-#define DSKY_NOUN_RES_OXIDIZER_STAGE_TOTAL  	57    			// Oxidizer Total (stage)
-#define DSKY_NOUN_RES_OXIDIZER_STAGE  			58          	// Oxidizer remaining (stage)
-#define DSKY_NOUN_RES_ECHARGE_TOTAL  			59           	// Electric Charge Total
-#define DSKY_NOUN_RES_ECHARGE  					60              // Electric Charge remaining
-#define DSKY_NOUN_RES_MONOPROP_TOTAL  			61          	// Mono Propellant Total
-#define DSKY_NOUN_RES_MONOPROP  				62              // Mono Propellant remaining
-#define DSKY_NOUN_RES_INTAKEAIR_TOTAL  			63         		// Intake Air Total
-#define DSKY_NOUN_RES_INTAKEAIR  				64              // Intake Air remaining
-#define DSKY_NOUN_RES_SOLIDFUEL_TOTAL  			65         		// Solid Fuel Total
-#define DSKY_NOUN_RES_SOLIDFUEL  				66              // Solid Fuel remaining
-#define DSKY_NOUN_RES_XENON_TOTAL  				67             	// Xenon Gas Total
-#define DSKY_NOUN_RES_XENON  					68              // Xenon Gas remaining
-// PROG nouns
-#define DSKY_NOUN_PROG_00  						80 + DSKY_PROG_CMC_IDLING
-#define DSKY_NOUN_PROG_01  						80 + DSKY_PROG_MISSION_TIME
-#define DSKY_NOUN_PROG_02  						80 + DSKY_PROG_ERRORS
-#define DSKY_NOUN_PROG_03  						80 + DSKY_PROG_ASCEND
-#define DSKY_NOUN_PROG_04  						80 + DSKY_PROG_CIRC_AFTER_ASCEND
-//#define DSKY_NOUN_PROG_05  						85 				// reserved for INSERTION PROG
-//#define DSKY_NOUN_PROG_06  						86 				// reserved for TRANSFER PROG
-#define DSKY_NOUN_PROG_07  						80 + DSKY_PROG_CIRC_AFTER_TRANSFER
-//#define DSKY_NOUN_PROG_08  						88 				// reserved for DEORBIT PROG
-#define DSKY_NOUN_PROG_09  						80 + DSKY_PROG_LAND
+#define DSKY_NOUN_RES_LIQUIDFUEL_TOTAL  		40        		// Liquid Fuel Total
+#define DSKY_NOUN_RES_LIQUIDFUEL  				41              // Liquid Fuel remaining
+#define DSKY_NOUN_RES_LIQUIDFUEL_STAGE_TOTAL  	42  			// Liquid Fuel Total (stage)
+#define DSKY_NOUN_RES_LIQUIDFUEL_STAGE  		43        		// Liquid Fuel remaining (stage)
+#define DSKY_NOUN_RES_OXIDIZER_TOTAL  			44          	// Oxidizer Total
+#define DSKY_NOUN_RES_OXIDIZER  				45              // Oxidizer remaining
+#define DSKY_NOUN_RES_OXIDIZER_STAGE_TOTAL  	46    			// Oxidizer Total (stage)
+#define DSKY_NOUN_RES_OXIDIZER_STAGE  			47          	// Oxidizer remaining (stage)
+#define DSKY_NOUN_RES_ECHARGE_TOTAL  			48           	// Electric Charge Total
+#define DSKY_NOUN_RES_ECHARGE  					49              // Electric Charge remaining
+#define DSKY_NOUN_RES_MONOPROP_TOTAL  			50          	// Mono Propellant Total
+#define DSKY_NOUN_RES_MONOPROP  				51              // Mono Propellant remaining
+#define DSKY_NOUN_RES_INTAKEAIR_TOTAL  			52         		// Intake Air Total
+#define DSKY_NOUN_RES_INTAKEAIR  				53              // Intake Air remaining
+#define DSKY_NOUN_RES_SOLIDFUEL_TOTAL  			54         		// Solid Fuel Total
+#define DSKY_NOUN_RES_SOLIDFUEL  				55              // Solid Fuel remaining
+#define DSKY_NOUN_RES_XENON_TOTAL  				56             	// Xenon Gas Total
+#define DSKY_NOUN_RES_XENON  					57              // Xenon Gas remaining
+// range checks
+#define DSKY_MIN_NOUN_RES	40
+#define DSKY_MAX_NOUN_RES	57
+
+
+
 // the NOUN_TOKENs are not valid
 #define DSKY_NOUN_TOKEN_PROG  					99          		// any PROG NOUN
 #define DSKY_NOUN_TOKEN_5DIG_DISPL  			98    				// any 5-digit DISPLAY

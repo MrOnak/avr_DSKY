@@ -13,103 +13,6 @@
 #include "../utilities/utilities.h"
  
 //---- variables --------------------------------------------------------------
-uint8_t dsky_validBarDispNouns[] = {
-    DSKY_NOUN_DISP_B1,DSKY_NOUN_DISP_B2,DSKY_NOUN_DISP_B3
-};
-uint8_t dsky_validDigitDispNouns[] = {
-    DSKY_NOUN_DISP_D81,DSKY_NOUN_DISP_D82,DSKY_NOUN_DISP_D51,DSKY_NOUN_DISP_D52,DSKY_NOUN_DISP_D53
-};
-uint8_t dsky_validProgNouns[] = {
-    DSKY_NOUN_PROG_00, DSKY_NOUN_PROG_01, DSKY_NOUN_PROG_02, DSKY_NOUN_PROG_03,
-    DSKY_NOUN_PROG_04, DSKY_NOUN_PROG_07, DSKY_NOUN_PROG_09
-};
-uint8_t dsky_validResNouns[] = {
-    DSKY_NOUN_RES_LIQUIDFUEL_TOTAL, DSKY_NOUN_RES_LIQUIDFUEL,
-    DSKY_NOUN_RES_LIQUIDFUEL_STAGE_TOTAL, DSKY_NOUN_RES_LIQUIDFUEL_STAGE,
-    DSKY_NOUN_RES_OXIDIZER_TOTAL, DSKY_NOUN_RES_OXIDIZER,
-    DSKY_NOUN_RES_OXIDIZER_STAGE_TOTAL, DSKY_NOUN_RES_OXIDIZER_STAGE,
-    DSKY_NOUN_RES_ECHARGE_TOTAL, DSKY_NOUN_RES_ECHARGE,
-    DSKY_NOUN_RES_MONOPROP_TOTAL, DSKY_NOUN_RES_MONOPROP,
-    DSKY_NOUN_RES_INTAKEAIR_TOTAL, DSKY_NOUN_RES_INTAKEAIR,
-    DSKY_NOUN_RES_SOLIDFUEL_TOTAL, DSKY_NOUN_RES_SOLIDFUEL,
-    DSKY_NOUN_RES_XENON_TOTAL, DSKY_NOUN_RES_XENON
-};
-uint8_t dsky_validFINouns[] = {
-    DSKY_NOUN_FI_ORBIT_AP, DSKY_NOUN_FI_ORBIT_PE, DSKY_NOUN_FI_ORBIT_SMAA,
-    DSKY_NOUN_FI_ORBIT_SMIA, DSKY_NOUN_FI_ORBIT_ECC, DSKY_NOUN_FI_ORBIT_INCL,
-    DSKY_NOUN_FI_ORBIT_AP_TIME, DSKY_NOUN_FI_ORBIT_PE_TIME, DSKY_NOUN_FI_ORBIT_TRUEANOM,
-    DSKY_NOUN_FI_ORBIT_PERIOD, DSKY_NOUN_FI_VEL_VERT, DSKY_NOUN_FI_VEL_SURFACE,
-    DSKY_NOUN_FI_VEL_ORBIT, DSKY_NOUN_FI_G, DSKY_NOUN_FI_AIR_DENSITY, DSKY_NOUN_FI_ALT_RADAR,
-    DSKY_NOUN_FI_ALT, DSKY_NOUN_FI_LATITUDE, DSKY_NOUN_FI_LONGITUDE, DSKY_NOUN_FI_MISSIONTIME,
-    DSKY_NOUN_FI_UPLINK_PING, DSKY_NOUN_FI_NODE_TIMETO, DSKY_NOUN_FI_NODE_DV,
-    DSKY_NOUN_FI_ATT_PITCH, DSKY_NOUN_FI_ATT_ROLL, DSKY_NOUN_FI_ATT_HDG
-};
-uint8_t dsky_validDisplayFactorNouns[] = {
-    DSKY_NOUN_DISP_D51_FACTOR, DSKY_NOUN_DISP_D52_FACTOR, DSKY_NOUN_DISP_D53_FACTOR,
-    DSKY_NOUN_DISP_D81_FACTOR, DSKY_NOUN_DISP_D82_FACTOR
-};
-uint8_t dsky_validVerbs[] = {
-    DSKY_VERB_LAMP_TEST, DSKY_VERB_CHANGE_PROGRAM,
-    DSKY_VERB_DISPLAY_ON_D51, DSKY_VERB_DISPLAY_ON_D52, DSKY_VERB_DISPLAY_ON_D53,
-    DSKY_VERB_DISPLAY_ON_D81, DSKY_VERB_DISPLAY_ON_D82,
-    DSKY_VERB_DISPLAY_ON_B1, DSKY_VERB_DISPLAY_ON_B2, DSKY_VERB_DISPLAY_ON_B3,
-    DSKY_VERB_RIGHTSHIFT_1, DSKY_VERB_RIGHTSHIFT_2, DSKY_VERB_RIGHTSHIFT_3,
-    DSKY_VERB_LEFTSHIFT_1, DSKY_VERB_LEFTSHIFT_2, DSKY_VERB_LEFTSHIFT_3,
-    DSKY_VERB_FLEXSHIFT,
-    DSKY_VERB_STARTSTANDBY, DSKY_VERB_ENDSTANDBY, DSKY_VERB_RESTART
-};
-uint8_t dsky_validNouns[] = {
-    DSKY_NOUN_FI_ORBIT_AP, DSKY_NOUN_FI_ORBIT_PE, DSKY_NOUN_FI_ORBIT_SMAA,
-    DSKY_NOUN_FI_ORBIT_SMIA, DSKY_NOUN_FI_ORBIT_ECC, DSKY_NOUN_FI_ORBIT_INCL,
-    DSKY_NOUN_FI_ORBIT_AP_TIME, DSKY_NOUN_FI_ORBIT_PE_TIME, DSKY_NOUN_FI_ORBIT_TRUEANOM,
-    DSKY_NOUN_FI_ORBIT_PERIOD, DSKY_NOUN_FI_VEL_VERT, DSKY_NOUN_FI_VEL_SURFACE,
-    DSKY_NOUN_FI_VEL_ORBIT, DSKY_NOUN_FI_G, DSKY_NOUN_FI_AIR_DENSITY, DSKY_NOUN_FI_ALT_RADAR,
-    DSKY_NOUN_FI_ALT, DSKY_NOUN_FI_LATITUDE, DSKY_NOUN_FI_LONGITUDE, DSKY_NOUN_FI_MISSIONTIME,
-    DSKY_NOUN_FI_UPLINK_PING, DSKY_NOUN_FI_NODE_TIMETO, DSKY_NOUN_FI_NODE_DV,
-    DSKY_NOUN_FI_ATT_PITCH, DSKY_NOUN_FI_ATT_ROLL, DSKY_NOUN_FI_ATT_HDG,
-    DSKY_NOUN_RES_LIQUIDFUEL_TOTAL, DSKY_NOUN_RES_LIQUIDFUEL,
-    DSKY_NOUN_RES_LIQUIDFUEL_STAGE_TOTAL, DSKY_NOUN_RES_LIQUIDFUEL_STAGE,
-    DSKY_NOUN_RES_OXIDIZER_TOTAL, DSKY_NOUN_RES_OXIDIZER,
-    DSKY_NOUN_RES_OXIDIZER_STAGE_TOTAL, DSKY_NOUN_RES_OXIDIZER_STAGE,
-    DSKY_NOUN_RES_ECHARGE_TOTAL, DSKY_NOUN_RES_ECHARGE,
-    DSKY_NOUN_RES_MONOPROP_TOTAL, DSKY_NOUN_RES_MONOPROP,
-    DSKY_NOUN_RES_INTAKEAIR_TOTAL, DSKY_NOUN_RES_INTAKEAIR,
-    DSKY_NOUN_RES_SOLIDFUEL_TOTAL, DSKY_NOUN_RES_SOLIDFUEL,
-    DSKY_NOUN_RES_XENON_TOTAL, DSKY_NOUN_RES_XENON,
-    DSKY_NOUN_DISP_D81,DSKY_NOUN_DISP_D82,DSKY_NOUN_DISP_D51,DSKY_NOUN_DISP_D52,DSKY_NOUN_DISP_D53,
-    DSKY_NOUN_DISP_B1,DSKY_NOUN_DISP_B2,DSKY_NOUN_DISP_B3,
-    DSKY_NOUN_PROG_00, DSKY_NOUN_PROG_01, DSKY_NOUN_PROG_02, DSKY_NOUN_PROG_03,
-    DSKY_NOUN_PROG_04, DSKY_NOUN_PROG_07, DSKY_NOUN_PROG_09,
-    DSKY_NOUN_DISP_D51_FACTOR, DSKY_NOUN_DISP_D52_FACTOR, DSKY_NOUN_DISP_D53_FACTOR,
-    DSKY_NOUN_DISP_D81_FACTOR, DSKY_NOUN_DISP_D82_FACTOR,
-};
-uint16_t dsky_validCommands[] = {
-    DSKY_CMD_LAMP_TEST, DSKY_CMD_CHANGE_PROGRAM,
-    DSKY_CMD_DISPLAY_RES_ON_D51, DSKY_CMD_DISPLAY_RES_ON_D52, DSKY_CMD_DISPLAY_RES_ON_D53,
-    DSKY_CMD_DISPLAY_RES_ON_D81, DSKY_CMD_DISPLAY_RES_ON_D82,
-    DSKY_CMD_DISPLAY_FI_ON_D51, DSKY_CMD_DISPLAY_FI_ON_D52, DSKY_CMD_DISPLAY_FI_ON_D53,
-    DSKY_CMD_DISPLAY_FI_ON_D81, DSKY_CMD_DISPLAY_FI_ON_D82,
-    DSKY_CMD_DISPLAY_DF_ON_D51, DSKY_CMD_DISPLAY_DF_ON_D52, DSKY_CMD_DISPLAY_DF_ON_D53,
-    DSKY_CMD_DISPLAY_DF_ON_D81, DSKY_CMD_DISPLAY_DF_ON_D82,
-    DSKY_CMD_DISPLAY_ON_B1, DSKY_CMD_DISPLAY_ON_B2, DSKY_CMD_DISPLAY_ON_B3,
-    DSKY_CMD_RIGHTSHIFT_1, DSKY_CMD_RIGHTSHIFT_2, DSKY_CMD_RIGHTSHIFT_3,
-    DSKY_CMD_LEFTSHIFT_1, DSKY_CMD_LEFTSHIFT_2, DSKY_CMD_LEFTSHIFT_3,
-    DSKY_CMD_FLEXSHIFT,
-    DSKY_CMD_STARTSTANDBY, DSKY_CMD_ENDSTANDBY, DSKY_CMD_RESTART
-};
-uint8_t dsky_validProgs[] = {
-    DSKY_PROG_CMC_IDLING,
-    DSKY_PROG_MISSION_TIME,
-    DSKY_PROG_ERRORS,
-    DSKY_PROG_ASCEND,
-    DSKY_PROG_CIRC_AFTER_ASCEND,
-//    DSKY_PROG_INSERTION,
-//    DSKY_PROG_TRANSFER,
-    DSKY_PROG_CIRC_AFTER_TRANSFER,
-//    DSKY_PROG_DEORBIT,
-    DSKY_PROG_LAND
-};
-
 dsky_state_t dsky_state;
 
 //---- functions -------------------------------------------------------------
@@ -401,7 +304,6 @@ void dsky_infoLights() {
  * and returns 1/0 accordingly
  */
 uint8_t dsky_checkCommandIsValid() {
-    uint8_t retval = 0;
     uint16_t tmpCmd = 0;
 
     // build command code
@@ -411,12 +313,12 @@ uint8_t dsky_checkCommandIsValid() {
         switch (dsky_state.newVerb) {
             // verbs that require a PROG noun
             case DSKY_VERB_CHANGE_PROGRAM:
-				// @todo verify translation to C: indexOf -> arrayPos()
-                if (arrayPos8(dsky_validProgNouns, dsky_state.newNoun) > -1) {
+                if (dsky_state.newNoun >= DSKY_MIN_PROGS && dsky_state.newNoun <= DSKY_MAX_PROGS) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_PROG;
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_UNKNOWN_PROG_NOUN;
+					return 0;
                 }
                 break;
             // verbs that require a 5-digit DISPLAY NOUN
@@ -427,30 +329,28 @@ uint8_t dsky_checkCommandIsValid() {
             case DSKY_VERB_DISPLAY_ON_D53:
             case DSKY_VERB_DISPLAY_ON_D81:
             case DSKY_VERB_DISPLAY_ON_D82:
-				// @todo verify translation to C: indexOf -> arrayPos()
-                if (arrayPos8(dsky_validResNouns, dsky_state.newNoun) > -1) {
+                if (dsky_state.newNoun >= DSKY_MIN_NOUN_RES && dsky_state.newNoun <= DSKY_MAX_NOUN_RES) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_RES;
-				// @todo verify translation to C: indexOf -> arrayPos()
-                } else if (arrayPos8(dsky_validFINouns, dsky_state.newNoun) > -1) {
+                } else if (dsky_state.newNoun >= DSKY_MIN_NOUN_FI && dsky_state.newNoun <= DSKY_MAX_NOUN_FI) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_FLIGHTINFO;
-				// @todo verify translation to C: indexOf -> arrayPos()
-                } else if (arrayPos8(dsky_validDisplayFactorNouns, dsky_state.newNoun) > -1) {
+                } else if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
+					return 0;
                 }
                 break;
             // verbs that require a bar DISPLAY NOUN
             case DSKY_VERB_DISPLAY_ON_B1:
             case DSKY_VERB_DISPLAY_ON_B2:
             case DSKY_VERB_DISPLAY_ON_B3:
-				// @todo verify translation to C: indexOf -> arrayPos()
-                if (arrayPos8(dsky_validResNouns, dsky_state.newNoun) > -1) {
+                if (dsky_state.newNoun >= DSKY_MIN_NOUN_RES && dsky_state.newNoun <= DSKY_MAX_NOUN_RES) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_RES;
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_UNKNOWN_RES_NOUN;
+					return 0;
                 }
                 break;
             case DSKY_VERB_RIGHTSHIFT_1:
@@ -459,32 +359,32 @@ uint8_t dsky_checkCommandIsValid() {
             case DSKY_VERB_LEFTSHIFT_1:
             case DSKY_VERB_LEFTSHIFT_2:
             case DSKY_VERB_LEFTSHIFT_3:
-				// @todo verify translation to C: indexOf -> arrayPos()
-                if (arrayPos8(dsky_validDisplayFactorNouns, dsky_state.newNoun) > -1) {
+                if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
+					return 0;
                 }
                 break;
             case DSKY_VERB_FLEXSHIFT:
-				// @todo verify translation to C: indexOf -> arrayPos()
-                if (arrayPos8(dsky_validDisplayFactorNouns, dsky_state.newNoun) > -1) {
+                if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
+					return 0;
                 }
 
                 break;
             default:
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                 dsky_state.error = DSKY_ERR_UNKNOWN_VERB;
+				return 0;
         }
 
     } else if (dsky_state.newVerbPos == 2 && dsky_state.newNounPos == 0
-		// @todo verify translation to C: indexOf -> arrayPos()
-        && arrayPos8(dsky_validVerbs, dsky_state.newVerb) > -1) {
+        && dsky_state.newVerb >= DSKY_MIN_VERBS && dsky_state.newVerb <= DSKY_MAX_VERBS) {
 
         switch (dsky_state.newVerb) {
             case DSKY_VERB_LAMP_TEST:
@@ -498,20 +398,17 @@ uint8_t dsky_checkCommandIsValid() {
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_STATE;
+					return 0;
                 }
         }
     }
 
-    // verify it is valid
-	// @todo verify translation to C: indexOf -> arrayPos()
-    if (arrayPos16(dsky_validCommands, tmpCmd) > -1) {
-        dsky_state.verb = dsky_state.newVerb; dsky_state.newVerb = 0; dsky_state.newVerbPos = 0;
-        dsky_state.noun = dsky_state.newNoun; dsky_state.newNoun = 0; dsky_state.newNounPos = 0;
-        dsky_state.currentCmd = tmpCmd;
-        retval = 1;
-    }
-
-    return retval;
+    // it is valid
+	dsky_state.verb = dsky_state.newVerb; dsky_state.newVerb = 0; dsky_state.newVerbPos = 0;
+	dsky_state.noun = dsky_state.newNoun; dsky_state.newNoun = 0; dsky_state.newNounPos = 0;
+	dsky_state.currentCmd = tmpCmd;
+	
+	return 1;
 }
 
 void dsky_executeCmd() {
@@ -1099,9 +996,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 
 
 		case DSKY_NOUN_RES_LIQUIDFUEL:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.LiquidFuel / kspio_vData.LiquidFuelTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.LiquidFuel);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1109,9 +1006,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_LIQUIDFUEL_STAGE:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.LiquidFuelS);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1119,9 +1016,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_OXIDIZER:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.Oxidizer / kspio_vData.OxidizerTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.Oxidizer);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1129,9 +1026,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_OXIDIZER_STAGE:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.OxidizerS / kspio_vData.OxidizerTotS) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.OxidizerS);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1139,9 +1036,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_ECHARGE:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.ECharge / kspio_vData.EChargeTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.ECharge);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1149,9 +1046,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_MONOPROP:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.MonoProp / kspio_vData.MonoPropTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.MonoProp);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1159,9 +1056,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_INTAKEAIR:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.IntakeAir / kspio_vData.IntakeAirTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.IntakeAir);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1169,9 +1066,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_SOLIDFUEL:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.SolidFuel / kspio_vData.SolidFuelTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.SolidFuel);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -1179,9 +1076,9 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			}
 			break;
         case DSKY_NOUN_RES_XENON:
-			if (arrayPos8(dsky_validBarDispNouns, displayId) > -1) {				// bar graph
+			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
 				retval = (uint32_t) ((kspio_vData.XenonGas / kspio_vData.XenonGasTot) * 100); 
-			} else if (arrayPos8(dsky_validDigitDispNouns, displayId) > -1) {	// 7-segment display
+			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.XenonGas);		
 			} else {															// invalid display
 				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);

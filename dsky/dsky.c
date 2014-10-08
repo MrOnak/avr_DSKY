@@ -426,9 +426,9 @@ void dsky_executeCmd() {
             dsky_display.d53 = 88888;
             dsky_display.d81 = 88888888;
             dsky_display.d82 = 88888888;
-            dsky_display.b1 = 100;
-            dsky_display.b2 = 100;
-            dsky_display.b3 = 100;
+            dsky_display.b1 = 255;
+            dsky_display.b2 = 255;
+            dsky_display.b3 = 255;
 			dsky_display.infoLights = 0xFFFF;
             break;
         case DSKY_CMD_CHANGE_PROGRAM:
@@ -852,7 +852,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
                 case DSKY_NOUN_DISP_B1:
                 case DSKY_NOUN_DISP_B2:
                 case DSKY_NOUN_DISP_B3:
-					retval = 100; // %
+					retval = 255; // 100%
                     break;
                 default:
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
@@ -997,7 +997,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 
 		case DSKY_NOUN_RES_LIQUIDFUEL:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.LiquidFuel / kspio_vData.LiquidFuelTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.LiquidFuel / kspio_vData.LiquidFuelTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.LiquidFuel);		
 			} else {															// invalid display
@@ -1007,7 +1007,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_LIQUIDFUEL_STAGE:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS) * 100); 
+				retval = (uint32_t) ((kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.LiquidFuelS);		
 			} else {															// invalid display
@@ -1017,7 +1017,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_OXIDIZER:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.Oxidizer / kspio_vData.OxidizerTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.Oxidizer / kspio_vData.OxidizerTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.Oxidizer);		
 			} else {															// invalid display
@@ -1027,7 +1027,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_OXIDIZER_STAGE:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.OxidizerS / kspio_vData.OxidizerTotS) * 100); 
+				retval = (uint32_t) ((kspio_vData.OxidizerS / kspio_vData.OxidizerTotS) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.OxidizerS);		
 			} else {															// invalid display
@@ -1037,7 +1037,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_ECHARGE:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.ECharge / kspio_vData.EChargeTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.ECharge / kspio_vData.EChargeTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.ECharge);		
 			} else {															// invalid display
@@ -1047,7 +1047,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_MONOPROP:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.MonoProp / kspio_vData.MonoPropTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.MonoProp / kspio_vData.MonoPropTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.MonoProp);		
 			} else {															// invalid display
@@ -1057,7 +1057,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_INTAKEAIR:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.IntakeAir / kspio_vData.IntakeAirTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.IntakeAir / kspio_vData.IntakeAirTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.IntakeAir);		
 			} else {															// invalid display
@@ -1067,7 +1067,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_SOLIDFUEL:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.SolidFuel / kspio_vData.SolidFuelTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.SolidFuel / kspio_vData.SolidFuelTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.SolidFuel);		
 			} else {															// invalid display
@@ -1077,7 +1077,7 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 			break;
         case DSKY_NOUN_RES_XENON:
 			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.XenonGas / kspio_vData.XenonGasTot) * 100); 
+				retval = (uint32_t) ((kspio_vData.XenonGas / kspio_vData.XenonGasTot) * 255); 
 			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
 				retval = (uint32_t) (factor * kspio_vData.XenonGas);		
 			} else {															// invalid display

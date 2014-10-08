@@ -1,0 +1,4 @@
+CHANGELOG
+- got rid of the DSKY_DISPLAY_FI_* and DSKY_DISPLAY_RES_* defines, using DSKY_NOUN_* instead
+- move info light flags in structs into a single uint16_t bitfield to save memory
+- moved millis() interrupt handler to TIMER2 to free up the TIMER0 used by display.c

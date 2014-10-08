@@ -1,11 +1,7 @@
 - verify move millis() interrupt to timer2 
-- see if we can move the PROG constants to their own namespace, beginning with 01 and allowing up to 99 programs to be defined
-- arrayPos() in utilities.c must use pointers for array access
-- verify arrayPos() works as intended
-- does it make sense to update infoLight shift-registers independently from the 7-segment display ones?
+- implement infoLights as shift registers
 	if we pack the existing 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11 additional bits in a total of 6 registers
-- does it make sense to update the bar graph data independently from the 7-segment displays?
-	depends on the protocol used to address the bar graph ICs
+- implement bar graph display. requires one PWM port per bar graph
 - replace mock-up function ISR_TIMER0_OVF_vect() in dsky.c with proper implementation
 - extend DSKY so that the warning light thresholds for the following will become configurable
   FROM WITHIN the DSKY itself:

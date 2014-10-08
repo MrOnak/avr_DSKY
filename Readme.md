@@ -3,11 +3,11 @@ This project aims to implement an Apollo DSKY inspired interface to display
 orbital and vessel information in the computer game Kerbal Space Program
 
 For information about the DSKY please check these websites:
-http://en.wikipedia.org/wiki/Apollo_Guidance_Computer
-http://www.ibiblio.org/apollo/yaDSKY.html
+- http://en.wikipedia.org/wiki/Apollo_Guidance_Computer
+- http://www.ibiblio.org/apollo/yaDSKY.html
 
 For information about Kerbal Space Program go to:
-https://www.kerbalspaceprogram.com/
+- https://www.kerbalspaceprogram.com/
 
 ## What this project is not
 I'm not aiming for a faithful implementation of the Apollo DSKY. 

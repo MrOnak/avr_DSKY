@@ -37,18 +37,6 @@
 #define DSKY_DISPLAY_INFOLIGHT_BIT_INTERR		7
 #define DSKY_DISPLAY_INFOLIGHT_BIT_GLOC			8
 #define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9	
-// DSKY display id nouns
-#define DSKY_DISPLAY_ID_D51  					0               // numeric display row 1
-#define DSKY_DISPLAY_ID_D52  					1               // numeric display row 2
-#define DSKY_DISPLAY_ID_D53  					2               // numeric display row 3
-#define DSKY_DISPLAY_ID_D81  					3               // 8-digit display 1
-#define DSKY_DISPLAY_ID_D82  					4               // 8-digit display 2
-#define DSKY_DISPLAY_ID_B1 						5               // bar display 1
-#define DSKY_DISPLAY_ID_B2 						6               // bar display 2
-#define DSKY_DISPLAY_ID_B3 						7               // bar display 3
-#define DSKY_DISPLAY_ID_PROG					8
-#define DSKY_DISPLAY_ID_VERB					9
-#define DSKY_DISPLAY_ID_NOUN					10
 
 // this was originally in dsky.h
 // it stores the numerical and boolean values that need to be displayed as well as locking information
@@ -78,8 +66,8 @@ typedef struct {
 	uint8_t sr2[8];	// this handles d82 in full
 	uint8_t sr3[8];	// this handles d53 in full as LSBs and the 3 LSB from d52 as MSBs
 	uint8_t sr4[8];	// this handles the 2 MSB from d52, d51 in full and the LSB from noun
-	uint8_t sr5[8];	// this handles the MSB from prog, verb in full, noun in full and 3 infoLights: UPLINK, TEMP, STBY
-	// infoLights PROG, KEYREL, RESTART, OPRERR, INTERR, GLOC, FUEL are handled directly from dsky_display.infoLights since they don't have to be multiplexed
+	uint8_t sr5[8];	// this handles the MSB from noun, verb in full, noun in full and has 3 bits free
+	// infoLights are handled directly from dsky_display.infoLights since they don't have to be multiplexed
 	uint8_t b1;
 	uint8_t b2; 
 	uint8_t b3;
@@ -89,7 +77,6 @@ dsky_digits_t dskyDisplay_digits;
 
 extern void dskyDisplay_init();
 extern void dskyDisplay_update();
-void dskyDisplay_updateSingle(uint8_t displayId, unsigned long number);
 void dskyDisplay_reset();
 void dskyDisplay_shiftOut(uint8_t value);
 

@@ -1,6 +1,11 @@
 CHANGELOG
 2014.10.09
-- reduced .hex file size from 44265 to 43377 byte
+- reduced .hex file size from 44265 to 44093 byte
+- change infoLights again:
+    - let the three MSBs from sr5 go to waste
+	- add 6th and 7th shift registers solely for the infoLights
+	- this will enable me to have 2 additional lights for VERB and NOUN when 
+	  those are meant to be entered by the user
 - repacked 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11 
     additional bits in a total of 6 registers for use with infoLights
 - implemented infoLights as shift registers

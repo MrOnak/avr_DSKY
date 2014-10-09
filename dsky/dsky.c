@@ -83,6 +83,7 @@ void dsky_checkInput() {
                     dsky_state.machineState = DSKY_STATE_VERB;
                     dsky_state.newVerb = 0;
                     dsky_state.newVerbPos = 0;
+					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight on
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_VERB_TIME;
@@ -93,6 +94,8 @@ void dsky_checkInput() {
                     dsky_state.machineState = DSKY_STATE_NOUN;
                     dsky_state.newNoun = 0;
                     dsky_state.newNounPos = 0;
+					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);	// noun infoLight on
+					dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
                 } else {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_NOUN_TIME;
@@ -194,7 +197,9 @@ void dsky_checkInput() {
 											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY)
 											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG)
 											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_KEYREL)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART);
+											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART)
+											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB)
+											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);
                 }
                 break;
             case DSKY_KEY_PROCEED:
@@ -224,6 +229,8 @@ void dsky_checkInput() {
 					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_CMD_INVALID;
                 }
+				dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN)	// noun infoLight off
+									   & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
                 break;
             case DSKY_KEY_RESET:
                 // cancel errors
@@ -715,13 +722,14 @@ void dsky_executeCmd() {
 void dsky_updateDisplayData() {
     // PROG
     dsky_display.prog = dsky_state.prog;
-    // VERB
+    // VERB & NOUN
     switch (dsky_state.machineState) {
         case DSKY_STATE_RDY:
         case DSKY_STATE_COMPLEX:
         case DSKY_STATE_PRE_RESTART:
         case DSKY_STATE_PRE_STANDBY:
             dsky_display.verb = dsky_state.verb;
+            dsky_display.noun = dsky_state.noun;
             break;
         case DSKY_STATE_VERB:
             if (dsky_state.newVerbPos == 0) {
@@ -731,26 +739,6 @@ void dsky_updateDisplayData() {
             } else if (dsky_state.newVerbPos == 2) {
                 dsky_display.verb = dsky_state.newVerb;
             }
-            break;
-        case DSKY_STATE_NOUN:
-            dsky_display.verb = dsky_state.newVerb;
-            break;
-        case DSKY_STATE_RESTARTING:
-            // don't do anything
-            break;
-        default:
-			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-            dsky_state.error = DSKY_ERR_INT_UNKNOWN_STATE;
-    }
-    // NOUN
-    switch (dsky_state.machineState) {
-        case DSKY_STATE_RDY:
-        case DSKY_STATE_COMPLEX:
-        case DSKY_STATE_PRE_RESTART:
-        case DSKY_STATE_PRE_STANDBY:
-            dsky_display.noun = dsky_state.noun;
-            break;
-        case DSKY_STATE_VERB:
             dsky_display.noun = 0;
             break;
         case DSKY_STATE_NOUN:
@@ -761,6 +749,7 @@ void dsky_updateDisplayData() {
             } else if (dsky_state.newNounPos == 2) {
                 dsky_display.noun = dsky_state.newNoun;
             }
+            dsky_display.verb = dsky_state.newVerb;
             break;
         case DSKY_STATE_RESTARTING:
             // don't do anything

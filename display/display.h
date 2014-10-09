@@ -36,7 +36,9 @@
 #define DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR		6
 #define DSKY_DISPLAY_INFOLIGHT_BIT_INTERR		7
 #define DSKY_DISPLAY_INFOLIGHT_BIT_GLOC			8
-#define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9	
+#define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9
+#define DSKY_DISPLAY_INFOLIGHT_BIT_VERB			14	
+#define DSKY_DISPLAY_INFOLIGHT_BIT_NOUN			15
 
 // this was originally in dsky.h
 // it stores the numerical and boolean values that need to be displayed as well as locking information

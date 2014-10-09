@@ -68,7 +68,6 @@ void dsky_update() {
     if (dsky_display.lock == 0) {
         dsky_updateDisplayData();
     }
-    dskyDisplay_update();
 }
 
 /**
@@ -425,14 +424,14 @@ void dsky_executeCmd() {
             dsky_display.lock = 1;
             dsky_display.lockCycles = DSKY_LAMP_TEST_DURATION;
 
-            dsky_display.prog = 88;
-            dsky_display.verb = 88;
-            dsky_display.noun = 88;
-            dsky_display.d51 = 88888;
-            dsky_display.d52 = 88888;
-            dsky_display.d53 = 88888;
-            dsky_display.d81 = 88888888;
-            dsky_display.d82 = 88888888;
+			dskyDisplay_setValue(DSKY_DISPLAY_PROG, 88);
+            dskyDisplay_setValue(DSKY_DISPLAY_VERB, 88);
+            dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 88);
+            dskyDisplay_setValue(DSKY_DISPLAY_D51, 88888);
+            dskyDisplay_setValue(DSKY_DISPLAY_D52, 88888);
+            dskyDisplay_setValue(DSKY_DISPLAY_D53, 88888);
+            dskyDisplay_setValue(DSKY_DISPLAY_D81, 88888888);
+            dskyDisplay_setValue(DSKY_DISPLAY_D82, 88888888);
             dsky_display.b1 = 255;
             dsky_display.b2 = 255;
             dsky_display.b3 = 255;
@@ -721,35 +720,36 @@ void dsky_executeCmd() {
  */
 void dsky_updateDisplayData() {
     // PROG
-    dsky_display.prog = dsky_state.prog;
+	dskyDisplay_setValue(DSKY_DISPLAY_PROG, dsky_state.prog);
     // VERB & NOUN
     switch (dsky_state.machineState) {
         case DSKY_STATE_RDY:
         case DSKY_STATE_COMPLEX:
         case DSKY_STATE_PRE_RESTART:
         case DSKY_STATE_PRE_STANDBY:
-            dsky_display.verb = dsky_state.verb;
-            dsky_display.noun = dsky_state.noun;
+			dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.verb);
+			dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.noun);
             break;
         case DSKY_STATE_VERB:
             if (dsky_state.newVerbPos == 0) {
-                dsky_display.verb = 0;
+				dskyDisplay_setValue(DSKY_DISPLAY_VERB, 0);
             } else if (dsky_state.newVerbPos == 1) {
-                dsky_display.verb = dsky_state.newVerb * 10;
+				dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb * 10);
             } else if (dsky_state.newVerbPos == 2) {
-                dsky_display.verb = dsky_state.newVerb;
+				dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb);
             }
-            dsky_display.noun = 0;
+            dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 0);
             break;
         case DSKY_STATE_NOUN:
             if (dsky_state.newNounPos == 0) {
-                dsky_display.noun = 0;
+				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 0);
             } else if (dsky_state.newNounPos == 1) {
-                dsky_display.noun = dsky_state.newNoun * 10;
+				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun * 10);
             } else if (dsky_state.newNounPos == 2) {
-                dsky_display.noun = dsky_state.newNoun;
+				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun);
             }
-            dsky_display.verb = dsky_state.newVerb;
+			// @todo double-check whether this is correct
+            dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb);
             break;
         case DSKY_STATE_RESTARTING:
             // don't do anything
@@ -760,11 +760,11 @@ void dsky_updateDisplayData() {
     }
 
     // digit displays
-    dsky_display.d51 = dsky_generateDisplayValue(dsky_state.d51, DSKY_NOUN_DISP_D51);
-    dsky_display.d52 = dsky_generateDisplayValue(dsky_state.d52, DSKY_NOUN_DISP_D52);
-    dsky_display.d53 = dsky_generateDisplayValue(dsky_state.d53, DSKY_NOUN_DISP_D53);
-    dsky_display.d81 = dsky_generateDisplayValue(dsky_state.d81, DSKY_NOUN_DISP_D81);
-    dsky_display.d82 = dsky_generateDisplayValue(dsky_state.d82, DSKY_NOUN_DISP_D82);
+	dskyDisplay_setValue(DSKY_DISPLAY_D51, dsky_generateDisplayValue(dsky_state.d51, DSKY_NOUN_DISP_D51));
+    dskyDisplay_setValue(DSKY_DISPLAY_D52, dsky_generateDisplayValue(dsky_state.d52, DSKY_NOUN_DISP_D52));
+    dskyDisplay_setValue(DSKY_DISPLAY_D53, dsky_generateDisplayValue(dsky_state.d53, DSKY_NOUN_DISP_D53));
+    dskyDisplay_setValue(DSKY_DISPLAY_D81, dsky_generateDisplayValue(dsky_state.d81, DSKY_NOUN_DISP_D81));
+    dskyDisplay_setValue(DSKY_DISPLAY_D82, dsky_generateDisplayValue(dsky_state.d82, DSKY_NOUN_DISP_D82));
     // bar displays
     dsky_display.b1 = dsky_generateDisplayValue(dsky_state.b1, DSKY_NOUN_DISP_B1);
     dsky_display.b2 = dsky_generateDisplayValue(dsky_state.b2, DSKY_NOUN_DISP_B2);

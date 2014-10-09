@@ -1,6 +1,10 @@
 CHANGELOG
 2014.10.09
-- reduced .hex file size from 44265 to 44175 byte
+- reduced .hex file size from 44265 to 43889 byte
+- added dskyDisplay_setValue() implementing uint32 to digits conversion via
+    ulpow() from dskyDisplay_update()
+- removed dskyDisplay_update()
+- adapted dsky.c code to call dskyDisplay_setValue()
 - added infolight logic for VERB and NOUN
 - combines switch() statements for VERB and NOUN in dsky_updateDisplayData()
 - change infoLights again:

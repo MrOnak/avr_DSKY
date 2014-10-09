@@ -1,12 +1,9 @@
 - verify move millis() interrupt to timer2 
-- ulpow() is called in dskyDisplay_update() even when a number hasn't changed
-    this eats a lot of performance
 - implement bar graph display. requires one PWM port per bar graph
 - replace mock-up function ISR_TIMER0_OVF_vect() in dsky.c with proper 
     implementation
 - extend DSKY so that the warning light thresholds for the following will 
-    become configurable
-  FROM WITHIN the DSKY itself:
+    become configurable FROM WITHIN the DSKY itself:
 	- DSKY_THRES_UPLINK	5
 	- DSKY_THRES_GLOC 	5
 	- DSKY_THRES_FUEL 	0.1

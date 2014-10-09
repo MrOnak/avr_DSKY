@@ -26,6 +26,16 @@
 #define DSKY_DISPLAY_PIN_SRCLR PD5  // => 74HCT595 clear
 #endif
 
+// ids for the individual displays, used in dskyDisplay_setValue()
+#define DSKY_DISPLAY_D81		0
+#define DSKY_DISPLAY_D82		1
+#define DSKY_DISPLAY_D51		2
+#define DSKY_DISPLAY_D52		3
+#define DSKY_DISPLAY_D53		4
+#define DSKY_DISPLAY_VERB		5
+#define DSKY_DISPLAY_NOUN		6
+#define DSKY_DISPLAY_PROG		7
+
 // info lights
 #define DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK		0
 #define DSKY_DISPLAY_INFOLIGHT_BIT_TEMP			1
@@ -70,15 +80,13 @@ typedef struct {
 	uint8_t sr4[8];	// this handles the 2 MSB from d52, d51 in full and the LSB from noun
 	uint8_t sr5[8];	// this handles the MSB from noun, verb in full, noun in full and has 3 bits free
 	// infoLights are handled directly from dsky_display.infoLights since they don't have to be multiplexed
-	uint8_t b1;
-	uint8_t b2; 
-	uint8_t b3;
+	// bar traphs are handled directly from dsky_display.bN since they don't have to be multiplexed
 	volatile uint8_t pos;	// this is the active segment indicator the srN variables
 } dsky_digits_t;
 dsky_digits_t dskyDisplay_digits;
 
 extern void dskyDisplay_init();
-extern void dskyDisplay_update();
+extern void dskyDisplay_setValue(uint8_t key, uint32_t val);
 void dskyDisplay_reset();
 void dskyDisplay_shiftOut(uint8_t value);
 

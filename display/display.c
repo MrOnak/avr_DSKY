@@ -58,62 +58,95 @@ void dskyDisplay_shiftOut(uint8_t value) {
     DSKY_DISPLAY_DATA_PORT |= (1 << DSKY_DISPLAY_PIN_SRCLK);
   }
 }
-/**
- * this pushes the current data onto the shift registers
- */
-void dskyDisplay_update() {	
-	// d81
-	dskyDisplay_digits.sr1[0] = (uint8_t) ((dsky_display.d81 / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr1[1] = (uint8_t) ((dsky_display.d81 / ulpow(10, 1)) % 10);
-	dskyDisplay_digits.sr1[2] = (uint8_t) ((dsky_display.d81 / ulpow(10, 2)) % 10);
-	dskyDisplay_digits.sr1[3] = (uint8_t) ((dsky_display.d81 / ulpow(10, 3)) % 10);
-	dskyDisplay_digits.sr1[4] = (uint8_t) ((dsky_display.d81 / ulpow(10, 4)) % 10);
-	dskyDisplay_digits.sr1[5] = (uint8_t) ((dsky_display.d81 / ulpow(10, 5)) % 10);
-	dskyDisplay_digits.sr1[6] = (uint8_t) ((dsky_display.d81 / ulpow(10, 6)) % 10);
-	dskyDisplay_digits.sr1[7] = (uint8_t) ((dsky_display.d81 / ulpow(10, 7)) % 10);
-	// d82
-	dskyDisplay_digits.sr2[0] = (uint8_t) ((dsky_display.d82 / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr2[1] = (uint8_t) ((dsky_display.d82 / ulpow(10, 1)) % 10);
-	dskyDisplay_digits.sr2[2] = (uint8_t) ((dsky_display.d82 / ulpow(10, 2)) % 10);
-	dskyDisplay_digits.sr2[3] = (uint8_t) ((dsky_display.d82 / ulpow(10, 3)) % 10);
-	dskyDisplay_digits.sr2[4] = (uint8_t) ((dsky_display.d82 / ulpow(10, 4)) % 10);
-	dskyDisplay_digits.sr2[5] = (uint8_t) ((dsky_display.d82 / ulpow(10, 5)) % 10);
-	dskyDisplay_digits.sr2[6] = (uint8_t) ((dsky_display.d82 / ulpow(10, 6)) % 10);
-	dskyDisplay_digits.sr2[7] = (uint8_t) ((dsky_display.d82 / ulpow(10, 7)) % 10);
-	// d53
-	dskyDisplay_digits.sr3[0] = (uint8_t) ((dsky_display.d53 / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr3[1] = (uint8_t) ((dsky_display.d53 / ulpow(10, 1)) % 10);
-	dskyDisplay_digits.sr3[2] = (uint8_t) ((dsky_display.d53 / ulpow(10, 2)) % 10);
-	dskyDisplay_digits.sr3[3] = (uint8_t) ((dsky_display.d53 / ulpow(10, 3)) % 10);
-	dskyDisplay_digits.sr3[4] = (uint8_t) ((dsky_display.d53 / ulpow(10, 4)) % 10);
-	// d52
-	dskyDisplay_digits.sr3[5] = (uint8_t) ((dsky_display.d52 / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr3[6] = (uint8_t) ((dsky_display.d52 / ulpow(10, 1)) % 10);
-	dskyDisplay_digits.sr3[7] = (uint8_t) ((dsky_display.d52 / ulpow(10, 2)) % 10);
-	dskyDisplay_digits.sr4[0] = (uint8_t) ((dsky_display.d52 / ulpow(10, 3)) % 10);
-	dskyDisplay_digits.sr4[1] = (uint8_t) ((dsky_display.d52 / ulpow(10, 4)) % 10);
-    // d51
-	dskyDisplay_digits.sr4[2] = (uint8_t) ((dsky_display.d51 / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr4[3] = (uint8_t) ((dsky_display.d51 / ulpow(10, 1)) % 10);
-	dskyDisplay_digits.sr4[4] = (uint8_t) ((dsky_display.d51 / ulpow(10, 2)) % 10);
-	dskyDisplay_digits.sr4[5] = (uint8_t) ((dsky_display.d51 / ulpow(10, 3)) % 10);
-	dskyDisplay_digits.sr4[6] = (uint8_t) ((dsky_display.d51 / ulpow(10, 4)) % 10);
-	// noun
-	dskyDisplay_digits.sr4[7] = (uint8_t) ((dsky_display.noun / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr5[0] = (uint8_t) ((dsky_display.noun / ulpow(10, 1)) % 10);
-	// verb
-	dskyDisplay_digits.sr5[1] = (uint8_t) ((dsky_display.verb / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr5[2] = (uint8_t) ((dsky_display.verb / ulpow(10, 1)) % 10);
-	// prog
-	dskyDisplay_digits.sr5[3] = (uint8_t) ((dsky_display.prog / ulpow(10, 0)) % 10);
-	dskyDisplay_digits.sr5[4] = (uint8_t) ((dsky_display.prog / ulpow(10, 1)) % 10);
-	// info lights - we don't need to do anything here
-	
 
-    // @todo bar displays
-    // DSKY_DISPLAY_ID_B1	dsky_display.b1;
-    // DSKY_DISPLAY_ID_B2	dsky_display.b2;
-    // DSKY_DISPLAY_ID_B3	dsky_display.b3;
+/**
+ * Updates the given dsky_digits key with the new value given by val
+ * if and only if the value differs. 
+ *
+ * performs the cpu intensive convertion of a long value into decimal digits via ulpow()
+ *
+ * use this only for 7-segment displays
+ */
+void dskyDisplay_setValue(uint8_t key, uint32_t val) {
+	switch (key) {
+		case DSKY_DISPLAY_D81:
+			if (dsky_display.d81 != val) {
+				dsky_display.d81 = val;
+				dskyDisplay_digits.sr1[0] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr1[1] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+				dskyDisplay_digits.sr1[2] = (uint8_t) ((val / ulpow(10, 2)) % 10);
+				dskyDisplay_digits.sr1[3] = (uint8_t) ((val / ulpow(10, 3)) % 10);
+				dskyDisplay_digits.sr1[4] = (uint8_t) ((val / ulpow(10, 4)) % 10);
+				dskyDisplay_digits.sr1[5] = (uint8_t) ((val / ulpow(10, 5)) % 10);
+				dskyDisplay_digits.sr1[6] = (uint8_t) ((val / ulpow(10, 6)) % 10);
+				dskyDisplay_digits.sr1[7] = (uint8_t) ((val / ulpow(10, 7)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_D82:
+			if (dsky_display.d82 != val) {
+				dsky_display.d82 = val;
+				dskyDisplay_digits.sr2[0] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr2[1] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+				dskyDisplay_digits.sr2[2] = (uint8_t) ((val / ulpow(10, 2)) % 10);
+				dskyDisplay_digits.sr2[3] = (uint8_t) ((val / ulpow(10, 3)) % 10);
+				dskyDisplay_digits.sr2[4] = (uint8_t) ((val / ulpow(10, 4)) % 10);
+				dskyDisplay_digits.sr2[5] = (uint8_t) ((val / ulpow(10, 5)) % 10);
+				dskyDisplay_digits.sr2[6] = (uint8_t) ((val / ulpow(10, 6)) % 10);
+				dskyDisplay_digits.sr2[7] = (uint8_t) ((val / ulpow(10, 7)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_D51:
+			if (dsky_display.d51 != val) {
+				dsky_display.d51 = val;
+				dskyDisplay_digits.sr4[2] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr4[3] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+				dskyDisplay_digits.sr4[4] = (uint8_t) ((val / ulpow(10, 2)) % 10);
+				dskyDisplay_digits.sr4[5] = (uint8_t) ((val / ulpow(10, 3)) % 10);
+				dskyDisplay_digits.sr4[6] = (uint8_t) ((val / ulpow(10, 4)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_D52:
+			if (dsky_display.d52 != val) {
+				dsky_display.d52 = val;
+				dskyDisplay_digits.sr3[5] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr3[6] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+				dskyDisplay_digits.sr3[7] = (uint8_t) ((val / ulpow(10, 2)) % 10);
+				dskyDisplay_digits.sr4[0] = (uint8_t) ((val / ulpow(10, 3)) % 10);
+				dskyDisplay_digits.sr4[1] = (uint8_t) ((val / ulpow(10, 4)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_D53:
+			if (dsky_display.d53 != val) {
+				dsky_display.d53 = val;
+				dskyDisplay_digits.sr3[0] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr3[1] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+				dskyDisplay_digits.sr3[2] = (uint8_t) ((val / ulpow(10, 2)) % 10);
+				dskyDisplay_digits.sr3[3] = (uint8_t) ((val / ulpow(10, 3)) % 10);
+				dskyDisplay_digits.sr3[4] = (uint8_t) ((val / ulpow(10, 4)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_VERB:
+			if (dsky_display.verb != val) {
+				dsky_display.verb = val;
+				dskyDisplay_digits.sr5[1] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr5[2] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_NOUN:
+			if (dsky_display.noun != val) {
+				dsky_display.noun = val;
+				dskyDisplay_digits.sr4[7] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr5[0] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+			}
+			break;
+		case DSKY_DISPLAY_PROG:
+			if (dsky_display.prog != val) {
+				dsky_display.prog = val;
+				dskyDisplay_digits.sr5[3] = (uint8_t) ((val / ulpow(10, 0)) % 10);
+				dskyDisplay_digits.sr5[4] = (uint8_t) ((val / ulpow(10, 1)) % 10);
+			}
+			break;
+	}
 }
 
 /** 
@@ -167,10 +200,6 @@ void dskyDisplay_init() {
     dskyDisplay_digits.sr4[i] 	= 0;
     dskyDisplay_digits.sr5[i] 	= 0;	
   }
-  
-  dskyDisplay_digits.b1  	= 0;
-  dskyDisplay_digits.b2  	= 0;
-  dskyDisplay_digits.b3  	= 0;
 
   // set segment pointer to their LSB
   dskyDisplay_digits.pos 	= 0;

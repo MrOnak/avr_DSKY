@@ -72,14 +72,13 @@ void dskyDisplay_update() {
     // 8-segments
 	dskyDisplay_updateSingle(DSKY_DISPLAY_ID_D81, dsky_display.d81);
 	dskyDisplay_updateSingle(DSKY_DISPLAY_ID_D82, dsky_display.d82);
+	// info lights - we don't need to do anything here
+	
 
     // @todo bar displays
     // DSKY_DISPLAY_ID_B1	dsky_display.b1;
     // DSKY_DISPLAY_ID_B2	dsky_display.b2;
     // DSKY_DISPLAY_ID_B3	dsky_display.b3;
-
-	// @todo info lights
-    // dsky_display.infoLights
 }
 
 /**
@@ -88,82 +87,64 @@ void dskyDisplay_update() {
 void dskyDisplay_updateSingle(uint8_t displayId, unsigned long number) {
 	switch (displayId) {
 		case DSKY_DISPLAY_ID_D81:
-			if (dsky_display.d81 != number) {
-				dsky_display.d81 = number;
-				dskyDisplay_digits.sr1[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr1[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-				dskyDisplay_digits.sr1[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
-				dskyDisplay_digits.sr1[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
-				dskyDisplay_digits.sr1[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
-				dskyDisplay_digits.sr1[5] = (uint8_t) ((number / ulpow(10, 5)) % 10);
-				dskyDisplay_digits.sr1[6] = (uint8_t) ((number / ulpow(10, 6)) % 10);
-				dskyDisplay_digits.sr1[7] = (uint8_t) ((number / ulpow(10, 7)) % 10);
-			}
+			dskyDisplay_digits.sr1[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr1[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr1[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
+			dskyDisplay_digits.sr1[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
+			dskyDisplay_digits.sr1[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
+			dskyDisplay_digits.sr1[5] = (uint8_t) ((number / ulpow(10, 5)) % 10);
+			dskyDisplay_digits.sr1[6] = (uint8_t) ((number / ulpow(10, 6)) % 10);
+			dskyDisplay_digits.sr1[7] = (uint8_t) ((number / ulpow(10, 7)) % 10);
 			break;
 		case DSKY_DISPLAY_ID_D82:
-			if (dsky_display.d82 != number) {
-				dsky_display.d82 = number;
-				dskyDisplay_digits.sr2[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr2[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-				dskyDisplay_digits.sr2[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
-				dskyDisplay_digits.sr2[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
-				dskyDisplay_digits.sr2[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
-				dskyDisplay_digits.sr2[5] = (uint8_t) ((number / ulpow(10, 5)) % 10);
-				dskyDisplay_digits.sr2[6] = (uint8_t) ((number / ulpow(10, 6)) % 10);
-				dskyDisplay_digits.sr2[7] = (uint8_t) ((number / ulpow(10, 7)) % 10);
-			}
-			break;
-		case DSKY_DISPLAY_ID_D51:
-			if (dsky_display.d51 != number) {
-				dsky_display.d51 = number;
-				dskyDisplay_digits.sr3[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr3[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-				dskyDisplay_digits.sr3[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
-				dskyDisplay_digits.sr3[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
-				dskyDisplay_digits.sr3[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
-			}
-			break;
-		case DSKY_DISPLAY_ID_D52:
-			if (dsky_display.d52 != number) {
-				dsky_display.d52 = number;
-				dskyDisplay_digits.sr3[5] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr3[6] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-				dskyDisplay_digits.sr3[7] = (uint8_t) ((number / ulpow(10, 2)) % 10);
-				dskyDisplay_digits.sr4[0] = (uint8_t) ((number / ulpow(10, 3)) % 10);
-				dskyDisplay_digits.sr4[1] = (uint8_t) ((number / ulpow(10, 4)) % 10);
-			}
+			dskyDisplay_digits.sr2[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr2[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr2[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
+			dskyDisplay_digits.sr2[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
+			dskyDisplay_digits.sr2[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
+			dskyDisplay_digits.sr2[5] = (uint8_t) ((number / ulpow(10, 5)) % 10);
+			dskyDisplay_digits.sr2[6] = (uint8_t) ((number / ulpow(10, 6)) % 10);
+			dskyDisplay_digits.sr2[7] = (uint8_t) ((number / ulpow(10, 7)) % 10);
 			break;
 		case DSKY_DISPLAY_ID_D53:
-			if (dsky_display.d53 != number) {
-				dsky_display.d53 = number;
-				dskyDisplay_digits.sr4[2] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr4[3] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-				dskyDisplay_digits.sr4[4] = (uint8_t) ((number / ulpow(10, 2)) % 10);
-				dskyDisplay_digits.sr4[5] = (uint8_t) ((number / ulpow(10, 3)) % 10);
-				dskyDisplay_digits.sr4[6] = (uint8_t) ((number / ulpow(10, 4)) % 10);
-			}
+			dskyDisplay_digits.sr3[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr3[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr3[2] = (uint8_t) ((number / ulpow(10, 2)) % 10);
+			dskyDisplay_digits.sr3[3] = (uint8_t) ((number / ulpow(10, 3)) % 10);
+			dskyDisplay_digits.sr3[4] = (uint8_t) ((number / ulpow(10, 4)) % 10);
 			break;
-		case DSKY_DISPLAY_ID_PROG:
-			if (dsky_display.prog != number) {
-				dsky_display.prog = number;
-				dskyDisplay_digits.sr5[0] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr5[1] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-			}
+		case DSKY_DISPLAY_ID_D52:
+			dskyDisplay_digits.sr3[5] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr3[6] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr3[7] = (uint8_t) ((number / ulpow(10, 2)) % 10);
+			dskyDisplay_digits.sr4[0] = (uint8_t) ((number / ulpow(10, 3)) % 10);
+			dskyDisplay_digits.sr4[1] = (uint8_t) ((number / ulpow(10, 4)) % 10);
 			break;
-		case DSKY_DISPLAY_ID_VERB:
-			if (dsky_display.verb != number) {
-				dsky_display.verb = number;
-				dskyDisplay_digits.sr5[2] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr5[3] = (uint8_t) ((number / ulpow(10, 1)) % 10);
-			}
+		case DSKY_DISPLAY_ID_D51:
+			dskyDisplay_digits.sr4[2] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr4[3] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr4[4] = (uint8_t) ((number / ulpow(10, 2)) % 10);
+			dskyDisplay_digits.sr4[5] = (uint8_t) ((number / ulpow(10, 3)) % 10);
+			dskyDisplay_digits.sr4[6] = (uint8_t) ((number / ulpow(10, 4)) % 10);
 			break;
 		case DSKY_DISPLAY_ID_NOUN:
 			if (dsky_display.noun != number) {
 				dsky_display.noun = number;
-				dskyDisplay_digits.sr5[4] = (uint8_t) ((number / ulpow(10, 0)) % 10);
-				dskyDisplay_digits.sr5[5] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			dskyDisplay_digits.sr4[7] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr5[0] = (uint8_t) ((number / ulpow(10, 1)) % 10);
 			}
 			break;
+		case DSKY_DISPLAY_ID_VERB:
+			dskyDisplay_digits.sr5[1] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr5[2] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			break;
+		case DSKY_DISPLAY_ID_PROG:
+			dskyDisplay_digits.sr5[3] = (uint8_t) ((number / ulpow(10, 0)) % 10);
+			dskyDisplay_digits.sr5[4] = (uint8_t) ((number / ulpow(10, 1)) % 10);
+			break;
+		// case DSKY_DISPLAY_ID_INFOLIGHTS:
+			// we don't need to do anything here since we can just shift the dsky_display.infoLights variable out directly
+			// break;
 	}
 }
 
@@ -211,26 +192,20 @@ void dskyDisplay_init() {
   dsky_display.lockCycles 	= 0;
 
   // set displays to zero
-  for (i = 0; i < 6; i++) {
+  for (i = 0; i < 8; i++) {
     dskyDisplay_digits.sr1[i] 	= 0;
     dskyDisplay_digits.sr2[i] 	= 0;
     dskyDisplay_digits.sr3[i] 	= 0;
     dskyDisplay_digits.sr4[i] 	= 0;
     dskyDisplay_digits.sr5[i] 	= 0;	
   }
-  dskyDisplay_digits.sr1[6] = 0; dskyDisplay_digits.sr1[7] = 0;
-  dskyDisplay_digits.sr2[6] = 0; dskyDisplay_digits.sr2[7] = 0;
-  dskyDisplay_digits.sr3[6] = 0; dskyDisplay_digits.sr3[7] = 0;
-  dskyDisplay_digits.sr4[6] = 0;
   
   dskyDisplay_digits.b1  	= 0;
   dskyDisplay_digits.b2  	= 0;
   dskyDisplay_digits.b3  	= 0;
 
-  // set segment "pointers" to their LSB
-  dskyDisplay_digits.pos1 	= 0;
-  dskyDisplay_digits.pos2 	= 0;
-  dskyDisplay_digits.pos3 	= 0;
+  // set segment pointer to their LSB
+  dskyDisplay_digits.pos 	= 0;
   
   // multiplexing timer 
   TCCR0A |= (1 << WGM01) | (1 << WGM00);  	// timer/counter control register 0 A: fast PWM
@@ -247,20 +222,19 @@ ISR(TIMER0_OVF_vect) {
 	uint8_t cSREG = SREG; 	// store register
 	cli();             		// disable interrupts
 
-	dskyDisplay_digits.pos1 = (dskyDisplay_digits.pos1 + 1) % DSKY_DISPLAY_SR1_BITLEN;
-	dskyDisplay_digits.pos2 = (dskyDisplay_digits.pos2 + 1) % DSKY_DISPLAY_SR4_BITLEN;
-	dskyDisplay_digits.pos3 = (dskyDisplay_digits.pos3 + 1) % DSKY_DISPLAY_SR5_BITLEN;
+	dskyDisplay_digits.pos = (dskyDisplay_digits.pos + 1) % 8;
 
 	// shift one byte per display out
 	DSKY_DISPLAY_DATA_PORT &= ~(1 << DSKY_DISPLAY_PIN_RCLK);
-	// all 8-bit registers
-	dskyDisplay_shiftOut(dskyDisplay_digits.sr1[dskyDisplay_digits.pos1] | (dskyDisplay_digits.pos1 * 16));
-	dskyDisplay_shiftOut(dskyDisplay_digits.sr2[dskyDisplay_digits.pos1] | (dskyDisplay_digits.pos1 * 16));
-	dskyDisplay_shiftOut(dskyDisplay_digits.sr3[dskyDisplay_digits.pos1] | (dskyDisplay_digits.pos1 * 16));
-	// 7 bit register
-	dskyDisplay_shiftOut(dskyDisplay_digits.sr4[dskyDisplay_digits.pos2] | (dskyDisplay_digits.pos2 * 16));
-	// 6 bit register
-	dskyDisplay_shiftOut(dskyDisplay_digits.sr5[dskyDisplay_digits.pos3] | (dskyDisplay_digits.pos3 * 16));
+	
+	// all shift-registers
+	dskyDisplay_shiftOut(dsky_display.infoLights << 3);	// this handles the infoLights PROG, KEYREL, RESTART, OPRERR, INTERR, GLOC, FUEL and has one bit left
+	dskyDisplay_shiftOut(dskyDisplay_digits.sr5[dskyDisplay_digits.pos] | (dskyDisplay_digits.pos * 16));	// this handles the MSB from noun as LSB, verb in full, prog in full and 3 infoLights: UPLINK, TEMP, STBY as MSBs
+	dskyDisplay_shiftOut(dskyDisplay_digits.sr4[dskyDisplay_digits.pos] | (dskyDisplay_digits.pos * 16));	// this handles the 2 MSB from d52, d51 in full and the LSB from noun
+	dskyDisplay_shiftOut(dskyDisplay_digits.sr3[dskyDisplay_digits.pos] | (dskyDisplay_digits.pos * 16));	// this handles d53 in full as LSBs and the 3 LSB from d52 as MSBs
+	dskyDisplay_shiftOut(dskyDisplay_digits.sr2[dskyDisplay_digits.pos] | (dskyDisplay_digits.pos * 16));	// this handles d82 in full
+	dskyDisplay_shiftOut(dskyDisplay_digits.sr1[dskyDisplay_digits.pos] | (dskyDisplay_digits.pos * 16));	// this handles d81 in full
+	
 	// store data
 	DSKY_DISPLAY_DATA_PORT |= (1 << DSKY_DISPLAY_PIN_RCLK); 
 

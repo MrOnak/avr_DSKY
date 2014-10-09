@@ -36,13 +36,7 @@
 #define DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR		6
 #define DSKY_DISPLAY_INFOLIGHT_BIT_INTERR		7
 #define DSKY_DISPLAY_INFOLIGHT_BIT_GLOC			8
-#define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9
-// "SR" == "shift-register"
-#define DSKY_DISPLAY_SR1_BITLEN 8		// this handles d81 in full
-#define DSKY_DISPLAY_SR2_BITLEN 8		// this handles d82 in full
-#define DSKY_DISPLAY_SR3_BITLEN 8		// this handles d53 in full as LSBs and the 3 LSB from d52 as MSBs
-#define DSKY_DISPLAY_SR4_BITLEN 7		// this handles the 2 MSB from d52 and d51 in full
-#define DSKY_DISPLAY_SR5_BITLEN 6		// this handles the prog/verb/noun displays in full
+#define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9	
 // DSKY display id nouns
 #define DSKY_DISPLAY_ID_D51  					0               // numeric display row 1
 #define DSKY_DISPLAY_ID_D52  					1               // numeric display row 2
@@ -80,17 +74,16 @@ extern dsky_display_t dsky_display;
 
 // this stores the numerical information from dsky_display_t split up into digits
 typedef struct {
-	uint8_t sr1[DSKY_DISPLAY_SR1_BITLEN];
-	uint8_t sr2[DSKY_DISPLAY_SR2_BITLEN];
-	uint8_t sr3[DSKY_DISPLAY_SR3_BITLEN];
-	uint8_t sr4[DSKY_DISPLAY_SR4_BITLEN];
-	uint8_t sr5[DSKY_DISPLAY_SR5_BITLEN];
+	uint8_t sr1[8];	// this handles d81 in full
+	uint8_t sr2[8];	// this handles d82 in full
+	uint8_t sr3[8];	// this handles d53 in full as LSBs and the 3 LSB from d52 as MSBs
+	uint8_t sr4[8];	// this handles the 2 MSB from d52, d51 in full and the LSB from noun
+	uint8_t sr5[8];	// this handles the MSB from prog, verb in full, noun in full and 3 infoLights: UPLINK, TEMP, STBY
+	// infoLights PROG, KEYREL, RESTART, OPRERR, INTERR, GLOC, FUEL are handled directly from dsky_display.infoLights since they don't have to be multiplexed
 	uint8_t b1;
 	uint8_t b2; 
 	uint8_t b3;
-	volatile uint8_t pos1;	// this is the active segment indicator for SR1, SR2, SR3, which are all 8 bit long
-	volatile uint8_t pos2; 	// this is the active segment indicator for SR4 which is 7 bit long
-	volatile uint8_t pos3; 	// this is the active segment indicator for SR5 which is 6 bit long
+	volatile uint8_t pos;	// this is the active segment indicator the srN variables
 } dsky_digits_t;
 dsky_digits_t dskyDisplay_digits;
 

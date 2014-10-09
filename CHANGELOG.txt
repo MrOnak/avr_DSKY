@@ -1,11 +1,21 @@
 CHANGELOG
+2014.10.09
+- reduced .hex file size from 44265 to 43377 byte
+- repacked 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11 
+    additional bits in a total of 6 registers for use with infoLights
+- implemented infoLights as shift registers
+
 2014.10.08
+- reduced .hex file size from 45995 to 44265 byte
 - reworked many of the #defines
 - got rid of NOUN_PROG constants, allowing up to 99 programs
 - removed arrayPos8() and arrayPos16() - replaced with range-check #defines
 - reduced .hex file size from 45995 byte to 44265
 
 2014.10.06
-- got rid of the DSKY_DISPLAY_FI_* and DSKY_DISPLAY_RES_* defines, using DSKY_NOUN_* instead
-- move info light flags in structs into a single uint16_t bitfield to save memory
-- moved millis() interrupt handler to TIMER2 to free up the TIMER0 used by display.c
+- got rid of the DSKY_DISPLAY_FI_* and DSKY_DISPLAY_RES_* defines, using 
+    DSKY_NOUN_* instead
+- move info light flags in structs into a single uint16_t bitfield to save 
+    memory
+- moved millis() interrupt handler to TIMER2 to free up the TIMER0 used by 
+    display.c

@@ -1,6 +1,4 @@
 - verify move millis() interrupt to timer2 
-- implement infoLights as shift registers
-	if we pack the existing 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11 additional bits in a total of 6 registers
 - implement bar graph display. requires one PWM port per bar graph
 - replace mock-up function ISR_TIMER0_OVF_vect() in dsky.c with proper implementation
 - extend DSKY so that the warning light thresholds for the following will become configurable

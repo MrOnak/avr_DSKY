@@ -47,8 +47,16 @@
 #define DSKY_DISPLAY_INFOLIGHT_BIT_INTERR		7
 #define DSKY_DISPLAY_INFOLIGHT_BIT_GLOC			8
 #define DSKY_DISPLAY_INFOLIGHT_BIT_FUEL			9
-#define DSKY_DISPLAY_INFOLIGHT_BIT_VERB			14	
+#define DSKY_DISPLAY_INFOLIGHT_BIT_VERB			14
 #define DSKY_DISPLAY_INFOLIGHT_BIT_NOUN			15
+#define DSKY_DISPLAY_INFOLIGHT_BIT_SAS                  16 // SAS-on indicator light from KSP
+#define DSKY_DISPLAY_INFOLIGHT_BIT_RCS                  17 // RCS-on indicator light from KSP
+#define DSKY_DISPLAY_INFOLIGHT_BIT_GEAR                 18 // gear-down indicator light from KSP
+#define DSKY_DISPLAY_INFOLIGHT_BIT_LIGHT                19 // vessel-lights indicator light from KSP
+#define DSKY_DISPLAY_INFOLIGHT_BIT_BRAKES               20 // brake indicator light from KSP
+#define DSKY_DISPLAY_INFOLIGHT_BIT_ALT			21 // suggestion: on == radar altitude < 1000m
+#define DSKY_DISPLAY_INFOLIGHT_BIT_VEL                  22 // suggestion: high velocity
+#define DSKY_DISPLAY_INFOLIGHT_BIT_PWR			23 // suggestion: on == electric power < 10%
 
 // this was originally in dsky.h
 // it stores the numerical and boolean values that need to be displayed as well as locking information
@@ -65,23 +73,22 @@ typedef struct {
     uint8_t verb;
     uint8_t noun;
 
-    uint8_t lock;           // setting this to 1 will prevent any updates to the displays - used for LAMP_TEST
+    uint8_t lock;               // setting this to 1 will prevent any updates to the displays - used for LAMP_TEST
     uint32_t lockCycles;	// "count-down" that releases the lock when == 0
-	
-	uint16_t infoLights;	// bit field! see DSKY_DISPLAY_INFOLIGHT_BIT_* for details
+
+    uint32_t infoLights;	// bit field! see DSKY_DISPLAY_INFOLIGHT_BIT_* for details
 } dsky_display_t;
 extern dsky_display_t dsky_display;
 
 // this stores the numerical information from dsky_display_t split up into digits
 typedef struct {
-	uint8_t sr1[8];	// this handles d81 in full
-	uint8_t sr2[8];	// this handles d82 in full
-	uint8_t sr3[8];	// this handles d53 in full as LSBs and the 3 LSB from d52 as MSBs
-	uint8_t sr4[8];	// this handles the 2 MSB from d52, d51 in full and the LSB from noun
-	uint8_t sr5[8];	// this handles the MSB from noun, verb in full, noun in full and has 3 bits free
-	// infoLights are handled directly from dsky_display.infoLights since they don't have to be multiplexed
-	// bar traphs are handled directly from dsky_display.bN since they don't have to be multiplexed
-	volatile uint8_t pos;	// this is the active segment indicator the srN variables
+    uint8_t sr1[10];	// this handles d81 in full
+    uint8_t sr2[10];	// this handles d82 in full and the LSB from PROG
+    uint8_t sr3[10];	// this handles D53 and D52 in full
+    uint8_t sr4[10];	// this handles D51 in full, VERB, NOUN and the MSB from PROG
+    // infoLights are handled directly from dsky_display.infoLights since they don't have to be multiplexed
+    // bar graphs are handled directly from dsky_display.bN since they don't have to be multiplexed
+    volatile uint8_t pos;	// this is the active segment indicator the srN variables
 } dsky_digits_t;
 dsky_digits_t dskyDisplay_digits;
 

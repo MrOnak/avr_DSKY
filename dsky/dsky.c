@@ -4,14 +4,14 @@
  */
 #include <avr/io.h>
 #include <avr/interrupt.h>
- 
+
 #include "../config.h"
 #include "dsky.h"
 #include "../keys/keys.h"
 #include "../display/display.h"
 #include "../kspio/kspio.h"
 #include "../utilities/utilities.h"
- 
+
 //---- variables --------------------------------------------------------------
 dsky_state_t dsky_state;
 
@@ -42,13 +42,13 @@ void dsky_init() {
     dsky_state.b1 = DSKY_DISPLAY_BLANK;
     dsky_state.b2 = DSKY_DISPLAY_BLANK;
     dsky_state.b3 = DSKY_DISPLAY_BLANK;
-	
-	dsky_state.infoLights = 0x0000;
-	
-	// 7-segment displays and bar graphs
-	dskyDisplay_init();
-	// DSKY keyboard
-	dskyKeyboard_init();
+
+    dsky_state.infoLights = 0x0000;
+
+    // 7-segment displays and bar graphs
+    dskyDisplay_init();
+    // DSKY keyboard
+    dskyKeyboard_init();
 }
 
 /**
@@ -82,9 +82,9 @@ void dsky_checkInput() {
                     dsky_state.machineState = DSKY_STATE_VERB;
                     dsky_state.newVerb = 0;
                     dsky_state.newVerbPos = 0;
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight on
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight on
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_VERB_TIME;
                 }
                 break;
@@ -93,10 +93,10 @@ void dsky_checkInput() {
                     dsky_state.machineState = DSKY_STATE_NOUN;
                     dsky_state.newNoun = 0;
                     dsky_state.newNounPos = 0;
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);	// noun infoLight on
-					dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);	// noun infoLight on
+                    dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_NOUN_TIME;
                 }
                 break;
@@ -111,11 +111,11 @@ void dsky_checkInput() {
                     if (dsky_checkCommandIsValid()) {
                         dsky_executeCmd();
                     } else if (dsky_state.error == DSKY_ERR_NONE) {
-						dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                         dsky_state.error = DSKY_ERR_CMD_INVALID;
                     }
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_PLUS_TIME;
                 }
                 break;
@@ -130,12 +130,12 @@ void dsky_checkInput() {
                     if (dsky_checkCommandIsValid()) {
                         dsky_executeCmd();
                     } else if (dsky_state.error == DSKY_ERR_NONE) {
-						dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                         dsky_state.error = DSKY_ERR_CMD_INVALID;
                     }
 
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_MINUS_TIME;
                 }
                 break;
@@ -152,34 +152,34 @@ void dsky_checkInput() {
                 switch (dsky_state.machineState) {
                     case DSKY_STATE_VERB:
                         if (dsky_state.newVerbPos == 0) {
-							// @todo verify translation to C
+                            // @todo verify translation to C
                             dsky_state.newVerb = (uint8_t) dsky_state.lastInput;
                             dsky_state.newVerbPos++;
                         } else if (dsky_state.newVerbPos == 1) {
-							// @todo verify translation to C
+                            // @todo verify translation to C
                             dsky_state.newVerb = dsky_state.newVerb * 10 + (uint8_t) dsky_state.lastInput;
                             dsky_state.newVerbPos = 2;
                         } else if (dsky_state.newVerbPos > 1) {
-							dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                             dsky_state.error = DSKY_ERR_VERB_LEN_EXCEEDED;
                         }
                         break;
                     case DSKY_STATE_NOUN:
                         if (dsky_state.newNounPos == 0) {
-							// @todo verify translation to C
+                            // @todo verify translation to C
                             dsky_state.newNoun = (uint8_t) dsky_state.lastInput;
                             dsky_state.newNounPos++;
                         } else if (dsky_state.newNounPos == 1) {
-							// @todo verify translation to C
+                            // @todo verify translation to C
                             dsky_state.newNoun = dsky_state.newNoun * 10 + (uint8_t) dsky_state.lastInput;
                             dsky_state.newNounPos = 2;
                         } else if (dsky_state.newNounPos > 1) {
-							dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                             dsky_state.error = DSKY_ERR_NOUN_LEN_EXCEEDED;
                         }
                         break;
                     default:
-						dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                         dsky_state.error = DSKY_ERR_NUM_TIME;
                 }
                 break;
@@ -191,29 +191,29 @@ void dsky_checkInput() {
                     dsky_state.newNoun = 0;
                     dsky_state.newNounPos = 0;
                     dsky_state.machineState = DSKY_STATE_RDY;
-					dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK) 
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_TEMP)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_KEYREL)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB)
-											& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);
-                }
+                    dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_TEMP)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_KEYREL)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB)
+                                        & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN);
+}
                 break;
             case DSKY_KEY_PROCEED:
                 switch (dsky_state.machineState) {
                     case DSKY_STATE_PRE_RESTART:
-						dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+                    dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
                         dsky_state.machineState = DSKY_STATE_RESTARTING;
                         break;
                     case DSKY_STATE_PRE_STANDBY:
-						dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
-						dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY);
+                        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+                        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY);
                         dsky_state.machineState = DSKY_STATE_RDY;
                         break;
                     default:
-						dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                         dsky_state.error = DSKY_ERR_PRO_TIME;
                 }
                 break;
@@ -225,21 +225,21 @@ void dsky_checkInput() {
                     dsky_state.machineState = DSKY_STATE_RDY;
                     dsky_executeCmd();
                 } else if (dsky_state.error == DSKY_ERR_NONE) {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_CMD_INVALID;
                 }
-				dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN)	// noun infoLight off
-									   & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
+                dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_NOUN)	// noun infoLight off
+                                      & ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_VERB);	// verb infoLight off
                 break;
             case DSKY_KEY_RESET:
                 // cancel errors
-				dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR)
+                dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR)
 										& ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                 dsky_state.error = DSKY_DISPLAY_BLANK;
                 break;
             default:
                 dsky_state.error = DSKY_ERR_INT_UNKNOWN_INPUT;
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
         }
 
         dsky_state.lastInput = DSKY_KEY_NONE;
@@ -269,39 +269,40 @@ void dsky_checkInput() {
 void dsky_infoLights() {
     // uplink lamp should be on when last packet was received no longer than 5 seconds ago
     if (kspio_vData.deltaTime < DSKY_THRES_UPLINK) {
-		dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK);
+        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK);
     } else {
-		dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK);
+        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_UPLINK);
     }
 
     // PROG light is on when DSKY is in a complex command state and further input from the user is required
     if (dsky_state.machineState == DSKY_STATE_COMPLEX
         || dsky_state.machineState == DSKY_STATE_PRE_RESTART
         || dsky_state.machineState == DSKY_STATE_PRE_STANDBY) {
-		dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+
+        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
     } else {
-		dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
     }
 
     // RESTART light is on when DSKY is restarting
     if (dsky_state.machineState == DSKY_STATE_RESTARTING) {
-		dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART);
+        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART);
     } else {
-		dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART);
+        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_RESTART);
     }
 
     // G-LOC warning light should be on when G forces exceed 5G
     if (kspio_vData.G > DSKY_THRES_GLOC) {
-		dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_GLOC);
+        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_GLOC);
     } else {
-		dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_GLOC);
+        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_GLOC);
     }
 
     // Fuel warning light should be on when there is less than 10% fuel in the stage
     if (kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS < DSKY_THRES_FUEL) {
-		dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_FUEL);
+        dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_FUEL);
     } else {
-		dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_FUEL);
+        dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_FUEL);
     }
 }
 
@@ -322,9 +323,9 @@ uint8_t dsky_checkCommandIsValid() {
                 if (dsky_state.newNoun >= DSKY_MIN_PROGS && dsky_state.newNoun <= DSKY_MAX_PROGS) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_PROG;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_UNKNOWN_PROG_NOUN;
-					return 0;
+                    return 0;
                 }
                 break;
             // verbs that require a 5-digit DISPLAY NOUN
@@ -342,9 +343,9 @@ uint8_t dsky_checkCommandIsValid() {
                 } else if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
-					return 0;
+                    return 0;
                 }
                 break;
             // verbs that require a bar DISPLAY NOUN
@@ -354,9 +355,9 @@ uint8_t dsky_checkCommandIsValid() {
                 if (dsky_state.newNoun >= DSKY_MIN_NOUN_RES && dsky_state.newNoun <= DSKY_MAX_NOUN_RES) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_RES;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_UNKNOWN_RES_NOUN;
-					return 0;
+                    return 0;
                 }
                 break;
             case DSKY_VERB_RIGHTSHIFT_1:
@@ -368,25 +369,25 @@ uint8_t dsky_checkCommandIsValid() {
                 if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
-					return 0;
+                    return 0;
                 }
                 break;
             case DSKY_VERB_FLEXSHIFT:
                 if (dsky_state.newNoun >= DSKY_MIN_NOUN_DISPLAYFACTOR && dsky_state.newNoun <= DSKY_MAX_NOUN_DISPLAYFACTOR) {
                     tmpCmd = dsky_state.newVerb * 100 + DSKY_NOUN_TOKEN_DISPLAYFACTOR;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_NOUN;
-					return 0;
+                    return 0;
                 }
 
                 break;
             default:
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                 dsky_state.error = DSKY_ERR_UNKNOWN_VERB;
-				return 0;
+                return 0;
         }
 
     } else if (dsky_state.newVerbPos == 2 && dsky_state.newNounPos == 0
@@ -402,19 +403,19 @@ uint8_t dsky_checkCommandIsValid() {
                 if (dsky_state.machineState == DSKY_STATE_VERB) {
                     tmpCmd = dsky_state.newVerb * 100;
                 } else {
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_OPRERR);
                     dsky_state.error = DSKY_ERR_INVALID_STATE;
-					return 0;
+                    return 0;
                 }
         }
     }
 
     // it is valid
-	dsky_state.verb = dsky_state.newVerb; dsky_state.newVerb = 0; dsky_state.newVerbPos = 0;
-	dsky_state.noun = dsky_state.newNoun; dsky_state.newNoun = 0; dsky_state.newNounPos = 0;
-	dsky_state.currentCmd = tmpCmd;
-	
-	return 1;
+    dsky_state.verb = dsky_state.newVerb; dsky_state.newVerb = 0; dsky_state.newVerbPos = 0;
+    dsky_state.noun = dsky_state.newNoun; dsky_state.newNoun = 0; dsky_state.newNounPos = 0;
+    dsky_state.currentCmd = tmpCmd;
+
+    return 1;
 }
 
 void dsky_executeCmd() {
@@ -424,7 +425,7 @@ void dsky_executeCmd() {
             dsky_display.lock = 1;
             dsky_display.lockCycles = DSKY_LAMP_TEST_DURATION;
 
-			dskyDisplay_setValue(DSKY_DISPLAY_PROG, 88);
+            dskyDisplay_setValue(DSKY_DISPLAY_PROG, 88);
             dskyDisplay_setValue(DSKY_DISPLAY_VERB, 88);
             dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 88);
             dskyDisplay_setValue(DSKY_DISPLAY_D51, 88888);
@@ -435,7 +436,7 @@ void dsky_executeCmd() {
             dsky_display.b1 = 255;
             dsky_display.b2 = 255;
             dsky_display.b3 = 255;
-			dsky_display.infoLights = 0xFFFF;
+            dsky_display.infoLights = 0xFFFF;
             break;
         case DSKY_CMD_CHANGE_PROGRAM:
             dsky_state.prog = dsky_state.noun - 80;
@@ -529,7 +530,7 @@ void dsky_executeCmd() {
                     dsky_state.b3 = DSKY_DISPLAY_BLANK;
                     break;
                 default:
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
                     dsky_state.error = DSKY_ERR_INT_UNKNOWN_PROG;
             }
             break;
@@ -695,19 +696,19 @@ void dsky_executeCmd() {
             break;
         case DSKY_CMD_STARTSTANDBY:
             dsky_state.machineState = DSKY_STATE_PRE_STANDBY;
-			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
             break;
         case DSKY_CMD_ENDSTANDBY:
             dsky_display.lock = 0;
-			dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY);
+            dsky_state.infoLights &= ~(1 << DSKY_DISPLAY_INFOLIGHT_BIT_STBY);
             dsky_state.machineState = DSKY_STATE_RDY;
             break;
         case DSKY_CMD_RESTART:
             dsky_state.machineState = DSKY_STATE_PRE_RESTART;
-			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
+            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_PROG);
             break;
         default:
-			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
             dsky_state.error = DSKY_ERR_INT_UNKNOWN_PROG;
     }
 
@@ -727,40 +728,40 @@ void dsky_updateDisplayData() {
         case DSKY_STATE_COMPLEX:
         case DSKY_STATE_PRE_RESTART:
         case DSKY_STATE_PRE_STANDBY:
-			dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.verb);
-			dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.noun);
+            dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.verb);
+            dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.noun);
             break;
         case DSKY_STATE_VERB:
             if (dsky_state.newVerbPos == 0) {
-				dskyDisplay_setValue(DSKY_DISPLAY_VERB, 0);
+                dskyDisplay_setValue(DSKY_DISPLAY_VERB, 0);
             } else if (dsky_state.newVerbPos == 1) {
-				dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb * 10);
+                dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb * 10);
             } else if (dsky_state.newVerbPos == 2) {
-				dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb);
+                dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb);
             }
             dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 0);
             break;
         case DSKY_STATE_NOUN:
             if (dsky_state.newNounPos == 0) {
-				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 0);
+                dskyDisplay_setValue(DSKY_DISPLAY_NOUN, 0);
             } else if (dsky_state.newNounPos == 1) {
-				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun * 10);
+                dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun * 10);
             } else if (dsky_state.newNounPos == 2) {
-				dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun);
+                dskyDisplay_setValue(DSKY_DISPLAY_NOUN, dsky_state.newNoun);
             }
-			// @todo double-check whether this is correct
+            // @todo double-check whether this is correct
             dskyDisplay_setValue(DSKY_DISPLAY_VERB, dsky_state.newVerb);
             break;
         case DSKY_STATE_RESTARTING:
             // don't do anything
             break;
         default:
-			dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+            dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
             dsky_state.error = DSKY_ERR_INT_UNKNOWN_STATE;
     }
 
     // digit displays
-	dskyDisplay_setValue(DSKY_DISPLAY_D51, dsky_generateDisplayValue(dsky_state.d51, DSKY_NOUN_DISP_D51));
+    dskyDisplay_setValue(DSKY_DISPLAY_D51, dsky_generateDisplayValue(dsky_state.d51, DSKY_NOUN_DISP_D51));
     dskyDisplay_setValue(DSKY_DISPLAY_D52, dsky_generateDisplayValue(dsky_state.d52, DSKY_NOUN_DISP_D52));
     dskyDisplay_setValue(DSKY_DISPLAY_D53, dsky_generateDisplayValue(dsky_state.d53, DSKY_NOUN_DISP_D53));
     dskyDisplay_setValue(DSKY_DISPLAY_D81, dsky_generateDisplayValue(dsky_state.d81, DSKY_NOUN_DISP_D81));
@@ -770,7 +771,7 @@ void dsky_updateDisplayData() {
     dsky_display.b2 = dsky_generateDisplayValue(dsky_state.b2, DSKY_NOUN_DISP_B2);
     dsky_display.b3 = dsky_generateDisplayValue(dsky_state.b3, DSKY_NOUN_DISP_B3);
     // info lights
-	dsky_display.infoLights = dsky_state.infoLights;
+    dsky_display.infoLights = dsky_state.infoLights;
 
     // we have to set the display lock here when on standby to get this one last
     // update cycle through before locking
@@ -792,21 +793,21 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 
 	// take shift multipliers into account
 	switch (displayId) {
-		case DSKY_NOUN_DISP_D51:
-			factor = dsky_state.d51factor;
-			break;
-		case DSKY_NOUN_DISP_D52:
-			factor = dsky_state.d52factor;
-			break;
-		case DSKY_NOUN_DISP_D53:
-			factor = dsky_state.d53factor;
-			break;
-		case DSKY_NOUN_DISP_D81:
-			factor = dsky_state.d81factor;
-			break;
-		case DSKY_NOUN_DISP_D82:
-			factor = dsky_state.d82factor;
-			break;
+            case DSKY_NOUN_DISP_D51:
+                factor = dsky_state.d51factor;
+                break;
+            case DSKY_NOUN_DISP_D52:
+                factor = dsky_state.d52factor;
+                break;
+            case DSKY_NOUN_DISP_D53:
+                factor = dsky_state.d53factor;
+                break;
+            case DSKY_NOUN_DISP_D81:
+                factor = dsky_state.d81factor;
+                break;
+            case DSKY_NOUN_DISP_D82:
+                factor = dsky_state.d82factor;
+                break;
 	}
 
     switch (displayValueId) {
@@ -823,10 +824,10 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
                     retval = 0;
                     break;
                 default:
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
                     dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
             }
-			break;
+            break;
         case DSKY_DISPLAY_TEST:
             switch (displayId) {
                 case DSKY_NOUN_DISP_D51:
@@ -841,10 +842,10 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
                 case DSKY_NOUN_DISP_B1:
                 case DSKY_NOUN_DISP_B2:
                 case DSKY_NOUN_DISP_B3:
-					retval = 255; // 100%
+                    retval = 255; // 100%
                     break;
                 default:
-					dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                    dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
                     dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
             }
             break;
@@ -984,96 +985,96 @@ uint32_t dsky_generateDisplayValue(uint8_t displayValueId, uint8_t displayId) {
 
 
 
-		case DSKY_NOUN_RES_LIQUIDFUEL:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.LiquidFuel / kspio_vData.LiquidFuelTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.LiquidFuel);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+        case DSKY_NOUN_RES_LIQUIDFUEL:
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.LiquidFuel / kspio_vData.LiquidFuelTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.LiquidFuel);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_LIQUIDFUEL_STAGE:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.LiquidFuelS);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.LiquidFuelS);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_OXIDIZER:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.Oxidizer / kspio_vData.OxidizerTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.Oxidizer);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.Oxidizer / kspio_vData.OxidizerTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.Oxidizer);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_OXIDIZER_STAGE:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.OxidizerS / kspio_vData.OxidizerTotS) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.OxidizerS);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.OxidizerS / kspio_vData.OxidizerTotS) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.OxidizerS);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_ECHARGE:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.ECharge / kspio_vData.EChargeTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.ECharge);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.ECharge / kspio_vData.EChargeTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.ECharge);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_MONOPROP:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.MonoProp / kspio_vData.MonoPropTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.MonoProp);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.MonoProp / kspio_vData.MonoPropTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.MonoProp);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_INTAKEAIR:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.IntakeAir / kspio_vData.IntakeAirTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.IntakeAir);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.IntakeAir / kspio_vData.IntakeAirTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.IntakeAir);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_SOLIDFUEL:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.SolidFuel / kspio_vData.SolidFuelTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.SolidFuel);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.SolidFuel / kspio_vData.SolidFuelTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.SolidFuel);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
         case DSKY_NOUN_RES_XENON:
-			if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
-				retval = (uint32_t) ((kspio_vData.XenonGas / kspio_vData.XenonGasTot) * 255); 
-			} else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
-				retval = (uint32_t) (factor * kspio_vData.XenonGas);		
-			} else {															// invalid display
-				dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
-				dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
-			}
-			break;
+            if (displayId >= DSKY_MIN_NOUN_BARDISPLAY && displayId <= DSKY_MAX_NOUN_BARDISPLAY) {				// bar graph
+                retval = (uint32_t) ((kspio_vData.XenonGas / kspio_vData.XenonGasTot) * 255);
+            } else if (displayId >= DSKY_MIN_NOUN_DIGITDISPLAY && displayId <= DSKY_MAX_NOUN_DIGITDISPLAY) {	// 7-segment display
+                retval = (uint32_t) (factor * kspio_vData.XenonGas);
+            } else {															// invalid display
+                dsky_state.infoLights |= (1 << DSKY_DISPLAY_INFOLIGHT_BIT_INTERR);
+                dsky_state.error = DSKY_ERR_INT_UNKNOWN_DISPLAY;
+            }
+            break;
     }
 
     return retval;

@@ -1,3 +1,4 @@
+- change code to utilize hardware SPI to fill the shift registers
 - add display flicker as electric charge on vessel runs below 2% (or so)
     requires a digital pin
 - verify move millis() interrupt to timer2

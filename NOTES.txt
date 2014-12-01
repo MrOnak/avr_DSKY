@@ -1,0 +1,7 @@
+Pin requirements
+
+- 16MHz crystal                                     PB6, PB7
+- 3 PWM out for bar graph displays                  PD3, PD5, PD6
+- 4 digital out for shift registers                 PB5, PB3, ?, ?
+- 1 analogue in for DSKY keyboard                   PC5
+- RX/TX for USB-to-serial converter circuit (more?) PD0, PD1

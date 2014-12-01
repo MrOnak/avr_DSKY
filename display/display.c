@@ -63,7 +63,7 @@ void dskyDisplay_shiftOut(uint8_t value) {
  * Updates the given dsky_digits key with the new value given by val
  * if and only if the value differs.
  *
- * performs the cpu intensive convertion of a long value into decimal digits via ulpow()
+ * performs the cpu intensive convertion of a long value into decimal digits
  *
  * use this only for 7-segment displays
  */
@@ -98,7 +98,7 @@ void dskyDisplay_setValue(uint8_t key, uint32_t val) {
         case DSKY_DISPLAY_D51:
             if (dsky_display.d51 != val) {
                 dsky_display.d51 = val;
-                dskyDisplay_digits.sr4[0] = (uint8_t) (val / % 10);
+                dskyDisplay_digits.sr4[0] = (uint8_t) (val % 10);
                 dskyDisplay_digits.sr4[1] = (uint8_t) ((val / 10) % 10);
                 dskyDisplay_digits.sr4[2] = (uint8_t) ((val / 100) % 10);
                 dskyDisplay_digits.sr4[3] = (uint8_t) ((val / 1000) % 10);

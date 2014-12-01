@@ -1,4 +1,16 @@
 CHANGELOG
+
+2014.12.01
+- reduced on-chip code size to 15148 byte (.hex file size is now 42633 byte)
+- added new INFOLIGHT constants for KSP status lights SAS, RCS, BRK, GEAR, LGT
+- dsky_display_t.infoLights is now uint_32 with 10 bit to spare
+- changed dsky_digits_t to have 4 srN arrays of 10 byte each to complement
+    new circuitry where two 74595 are multiplexing 40 segments (low and high
+    nibble each containing a digit) with a single decade counter looping over 10
+    segments
+- got rid of usage of ulpow() in dskyDisplay_setValue() - I don't think we need
+    ulpow() anymore.
+
 2014.10.09
 - reduced .hex file size from 44265 to 43889 byte
 - added dskyDisplay_setValue() implementing uint32 to digits conversion via
@@ -10,9 +22,9 @@ CHANGELOG
 - change infoLights again:
     - let the three MSBs from sr5 go to waste
 	- add 6th and 7th shift registers solely for the infoLights
-	- this will enable me to have 2 additional lights for VERB and NOUN when 
+	- this will enable me to have 2 additional lights for VERB and NOUN when
 	  those are meant to be entered by the user
-- repacked 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11 
+- repacked 7-segment displays in 5 blocks of 8 bit (3 spare), we can pack 11
     additional bits in a total of 6 registers for use with infoLights
 - implemented infoLights as shift registers
 
@@ -24,9 +36,9 @@ CHANGELOG
 - reduced .hex file size from 45995 byte to 44265
 
 2014.10.06
-- got rid of the DSKY_DISPLAY_FI_* and DSKY_DISPLAY_RES_* defines, using 
+- got rid of the DSKY_DISPLAY_FI_* and DSKY_DISPLAY_RES_* defines, using
     DSKY_NOUN_* instead
-- move info light flags in structs into a single uint16_t bitfield to save 
+- move info light flags in structs into a single uint16_t bitfield to save
     memory
-- moved millis() interrupt handler to TIMER2 to free up the TIMER0 used by 
+- moved millis() interrupt handler to TIMER2 to free up the TIMER0 used by
     display.c

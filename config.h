@@ -21,6 +21,12 @@
 #define DSKY_DISPLAY_PIN_SRCLK PD4  // => 74HCT595 shift register clock
 #define DSKY_DISPLAY_PIN_SRCLR PD7  // => 74HCT595 clear
 
+#define DSKY_BARGRAPH_CTRL_PORT DDRD
+#define DSKY_BARGRAPH_DATA_PORT PORTD
+#define DSKY_BARGRAPH_PIN_B1 PD3
+#define DSKY_BARGRAPH_PIN_B2 PD5
+#define DSKY_BARGRAPH_PIN_B3 PD6
+
 //---- KSPIO ------------------------------------------------------------------
 #define KSPIO_IDLETIMER 2000	// if no message received from KSP for more than 2s, go idle
 #define KSPIO_CONTROLREFRESH 25

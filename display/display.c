@@ -142,7 +142,7 @@ void dskyDisplay_setValue(uint8_t key, uint32_t val) {
         case DSKY_DISPLAY_PROG:
             if (dsky_display.prog != val) {
                 dsky_display.prog = val;
-                dskyDisplay_digits.sr2[9] = (uint8_t) (val % 10);
+                dskyDisplay_digits.sr2[8] = (uint8_t) (val % 10);
                 dskyDisplay_digits.sr4[9] = (uint8_t) ((val / 10) % 10);
             }
             break;
@@ -229,8 +229,8 @@ ISR(TIMER0_OVF_vect) {
     dskyDisplay_shiftOut(dskyDisplay_digits.sr1[dskyDisplay_digits.pos] | (dskyDisplay_digits.sr2[dskyDisplay_digits.pos] * 16));	// this handles D82, D82 and the LSB from PROG
     dskyDisplay_shiftOut(dskyDisplay_digits.sr3[dskyDisplay_digits.pos] | (dskyDisplay_digits.sr4[dskyDisplay_digits.pos] * 16));	// this handles D51, D52, D53, VERB, NOUN and the MSB from PROG
     // infolights
-    dskyDisplay_shiftOut(dsky_display.infoLights << 16);    // this handles the infoLights SAS, RCS, GEAR, LIGHT, BRAKES, ALT, VEL, PWR
-    dskyDisplay_shiftOut(dsky_display.infoLights << 8);     // this handles the infoLights GLOC, FUEL, VERB, NOUN and has 4 bits left
+    dskyDisplay_shiftOut(dsky_display.infoLights >> 16);    // this handles the infoLights SAS, RCS, GEAR, LIGHT, BRAKES, ALT, VEL, PWR
+    dskyDisplay_shiftOut(dsky_display.infoLights >> 8);     // this handles the infoLights GLOC, FUEL, VERB, NOUN and has 4 bits left
     dskyDisplay_shiftOut(dsky_display.infoLights);          // this handles the infoLights UPLINK, TEMP, STBY, PROG, KEYREL, RESTART, OPRERR, INTERR
 
     // store data

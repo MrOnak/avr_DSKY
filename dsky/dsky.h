@@ -87,7 +87,6 @@
 #define DSKY_NOUN_DISP_B1  					5               // bar display 1
 #define DSKY_NOUN_DISP_B2  					6               // bar display 2
 #define DSKY_NOUN_DISP_B3  					7               // bar display 3
-#define DSKY_NOUN_DISP_B4  					8               // bar display 4
 // range checks
 #define DSKY_MIN_NOUN_BARDISPLAY	5
 #define DSKY_MAX_NOUN_BARDISPLAY	7			// @todo B4 isn't used in the code yet

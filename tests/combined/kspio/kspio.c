@@ -39,7 +39,7 @@
 #endif
 
 #ifndef KSPIO_IDLETIMER
-#define KSPIO_IDLETIMER 2000	//if no message received from KSP for more than 2s, go idle
+#define KSPIO_IDLETIMER 2000  //if no message received from KSP for more than 2s, go idle
 #endif
 #ifndef KSPIO_CONTROLREFRESH
 #define KSPIO_CONTROLREFRESH 25
@@ -72,8 +72,8 @@ controlPacket_t kspio_cPacket;
  *
  */
 void kspio_initTXPackets() {
-	kspio_hPacket.id = 0;
-	kspio_cPacket.id = 101;
+  kspio_hPacket.id = 0;
+  kspio_cPacket.id = 101;
 }
 
 //---- UART stuff -------------------------------------------------------------
@@ -205,31 +205,31 @@ void kspio_handshake() {
  * 1 - if new data was fetched
  */
 int8_t kspio_input() {
-	kspio_now = millis();
-	int8_t returnValue = -1;
-	
-	if (kspio_boardReceiveData()) {
-		kspio_deadtimeOld = kspio_now;
-		returnValue = kspio_id;
-		
-		switch (kspio_id) {
-			case 0: //Handshake packet
-				kspio_handshake();
-				break;
-		}
+  kspio_now = millis();
+  int8_t returnValue = -1;
+  
+  if (kspio_boardReceiveData()) {
+    kspio_deadtimeOld = kspio_now;
+    returnValue = kspio_id;
+    
+    switch (kspio_id) {
+      case 0: //Handshake packet
+        kspio_handshake();
+        break;
+    }
 
-		//We got some data
-		kspio_connected = 1;
+    //We got some data
+    kspio_connected = 1;
 
-	} else { //if no message received for a while, go idle
-		kspio_deadtime = kspio_now - kspio_deadtimeOld;
-		if (kspio_deadtime > KSPIO_IDLETIMER) {
-			kspio_deadtimeOld = kspio_now;
-			kspio_connected = 0;
-		}
-	}
-	
-	return returnValue;
+  } else { //if no message received for a while, go idle
+    kspio_deadtime = kspio_now - kspio_deadtimeOld;
+    if (kspio_deadtime > KSPIO_IDLETIMER) {
+      kspio_deadtimeOld = kspio_now;
+      kspio_connected = 0;
+    }
+  }
+  
+  return returnValue;
 }
 
 //---- output -----------------------------------------------------------------

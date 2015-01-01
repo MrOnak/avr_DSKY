@@ -5,6 +5,7 @@
 #define DSKY_BARGRAPH_PIN_B3 PD6
 
 #define DSKY_DISPLAY_PIN_CLR PB1		// int sr_srclr    = 9;   // any free digital pin will do
+#define DSKY_DISPLAY_PIN_PWRCLR PD2
 
 #define DSKY_THRES_GLOC1 3
 #define DSKY_THRES_GLOC2 6

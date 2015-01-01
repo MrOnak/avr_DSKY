@@ -7,7 +7,7 @@ typedef struct {
     uint8_t sr4[10];	// this handles D51 in full, VERB, NOUN and the MSB from PROG
     // infoLights are handled directly from dsky_display.infoLights since they don't have to be multiplexed
     // bar graphs are handled directly from dsky_display.bN since they don't have to be multiplexed
-    volatile uint8_t pos;	// this is the active segment indicator the srN variables
+    uint8_t pos;	// this is the active segment indicator the srN variables
 } dsky_digits_t;
 
 typedef struct {

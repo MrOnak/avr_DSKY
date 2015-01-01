@@ -12,7 +12,7 @@ DUDEFLAGS = -p atmega328p -c usbtiny -v
 SIZEFLAGS = --mcu=$(MCU) -C
 
 # Object files 
-OBJECTS = main.o spi/spi.o
+OBJECTS = main.o spi/spi.o uart/uart.o kspio/kspio.o kspio/millis.o
 
 # By default, build the firmware and command-line client, but do not flash
 all: main.hex
@@ -26,7 +26,7 @@ eeprom: main.eep
 
 # Housekeeping if you want it
 clean:
-	$(RM) *.o *.hex *.elf spi/spi.o
+	$(RM) *.o *.hex *.elf spi/spi.o uart/*.o uart/*.hex uart/*.elf kspio/*.o
 
 # From .elf file to .hex
 %.hex: %.elf

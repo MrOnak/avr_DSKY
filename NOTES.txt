@@ -1,8 +1,16 @@
-Pin requirements
-
-- 16MHz crystal                                     PB6, PB7
-- RX/TX for USB-to-serial converter circuit (more?) PD0, PD1
-- 3 PWM out for bar graph displays                  PD3, PD5, PD6
-- 1 digital out for low-power flicker				PD7
-- 4 digital out for shift registers                 PB5 (CLK), PB3 (MOSI), PB0 (CLR), PB1 (REG)
-- 1 analogue in for DSKY keyboard                   PC0
+Alternative approach to KSPIO-ish things
+  instead of pushing every single kind of data every time
+	why not use a request/response protocol where the microcontroller
+	decides what information it needs and thus trading I/O bandwidth
+	for a bit of processing power:
+	- The microcontroller would send a command to the KSP plugin which 
+	  data pieces it needs. 
+	- The KSP plugin stores that information and sends only those
+	  pieces from then on. 
+  - the microcontroller will have to keep track of which data sets
+	  were requested last as that determines the order of incoming
+		data
+	
+http://www.adafruit.com/products/1887
+	- JS running microprocessor
+	Telemachus to microcontroller?

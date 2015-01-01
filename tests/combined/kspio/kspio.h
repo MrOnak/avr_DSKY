@@ -97,7 +97,7 @@ typedef struct {
 extern vesselData_t kspio_vData;
 
 extern void kspio_init();
-extern void kspio_input();
+extern int8_t kspio_input();
 
 void kspio_initTXPackets();
 void kspio_handshake();

@@ -82,101 +82,101 @@ void kspio_initTXPackets() {
  * contains stuff borrowed from EasyTransfer lib
  */
 uint8_t kspio_boardReceiveData() {
-    uint8_t i;
-    uint16_t c;
-    unsigned char chr;
+  uint8_t i;
+  uint16_t c;
+  unsigned char chr;
 
-    if (kspio_rxLen == 0 && uart_available() > 3) {
-        c = uart_getc();
-        chr = (unsigned char) c;
+  if (kspio_rxLen == 0 && uart_available() > 3) {
+    c = uart_getc();
+    chr = (unsigned char) c;
 
-        while (chr != 0xBE) {
-            if (uart_available() == 0) {
-                return 0;
-            }
+    while (chr != 0xBE) {
+      if (uart_available() == 0) {
+        return 0;
+      }
 
-            c = uart_getc(); // read character from UART
-            chr = (unsigned char) c; // low byte is the actual character, store that in chr
-        }
-
-        c = uart_getc();
-        chr = (unsigned char) c;
-
-        if (chr == 0xEF) {
-            c = uart_getc();
-            kspio_rxLen = (unsigned char) c;
-            c = uart_getc();
-            kspio_id = (unsigned char) c;
-            kspio_rxArrayInx = 1;
-
-            switch (kspio_id) {
-                case 0:
-                    kspio_structSize = sizeof (kspio_hPacket);
-                    kspio_address = (uint8_t*) & kspio_hPacket;
-                    break;
-
-                case 1:
-                    kspio_structSize = sizeof (kspio_vData);
-                    kspio_address = (uint8_t*) & kspio_vData;
-                    break;
-            }
-        }
-
-        //make sure the binary structs on both Arduinos are the same size.
-        if (kspio_rxLen != kspio_structSize) {
-            kspio_rxLen = 0;
-            return 0;
-        }
+      c = uart_getc(); // read character from UART
+      chr = (unsigned char) c; // low byte is the actual character, store that in chr
     }
 
-    if (kspio_rxLen != 0) {
-        while (uart_available() && kspio_rxArrayInx <= kspio_rxLen) {
-            c = uart_getc();
-            kspio_buffer[kspio_rxArrayInx++] = (unsigned char) c;
-        }
-        kspio_buffer[0] = kspio_id;
+    c = uart_getc();
+    chr = (unsigned char) c;
 
-        if (kspio_rxLen == (kspio_rxArrayInx - 1)) {
-            //seem to have got whole message
-            //last uint8_t is CS
-            kspio_calcCS = kspio_rxLen;
-            for (i = 0; i < kspio_rxLen; i++) {
-                kspio_calcCS ^= kspio_buffer[i];
-            }
+    if (chr == 0xEF) {
+      c = uart_getc();
+      kspio_rxLen = (unsigned char) c;
+      c = uart_getc();
+      kspio_id = (unsigned char) c;
+      kspio_rxArrayInx = 1;
 
-            if (kspio_calcCS == kspio_buffer[kspio_rxArrayInx - 1]) {//CS good
-                memcpy(kspio_address, kspio_buffer, kspio_structSize);
-                kspio_rxLen = 0;
-                kspio_rxArrayInx = 1;
-                return 1;
-            } else {
-                //failed checksum, need to clear this out anyway
-                kspio_rxLen = 0;
-                kspio_rxArrayInx = 1;
-                return 0;
-            }
-        }
+      switch (kspio_id) {
+        case 0:
+          kspio_structSize = sizeof (kspio_hPacket);
+          kspio_address = (uint8_t*) & kspio_hPacket;
+          break;
+
+        case 1:
+          kspio_structSize = sizeof (kspio_vData);
+          kspio_address = (uint8_t*) & kspio_vData;
+          break;
+      }
     }
 
-    return 0;
+    //make sure the binary structs on both Arduinos are the same size.
+    if (kspio_rxLen != kspio_structSize) {
+      kspio_rxLen = 0;
+      return 0;
+    }
+  }
+
+  if (kspio_rxLen != 0) {
+    while (uart_available() && kspio_rxArrayInx <= kspio_rxLen) {
+      c = uart_getc();
+      kspio_buffer[kspio_rxArrayInx++] = (unsigned char) c;
+    }
+    kspio_buffer[0] = kspio_id;
+
+    if (kspio_rxLen == (kspio_rxArrayInx - 1)) {
+      //seem to have got whole message
+      //last uint8_t is CS
+      kspio_calcCS = kspio_rxLen;
+      for (i = 0; i < kspio_rxLen; i++) {
+        kspio_calcCS ^= kspio_buffer[i];
+      }
+
+      if (kspio_calcCS == kspio_buffer[kspio_rxArrayInx - 1]) {//CS good
+        memcpy(kspio_address, kspio_buffer, kspio_structSize);
+        kspio_rxLen = 0;
+        kspio_rxArrayInx = 1;
+        return 1;
+      } else {
+        //failed checksum, need to clear this out anyway
+        kspio_rxLen = 0;
+        kspio_rxArrayInx = 1;
+        return 0;
+      }
+    }
+  }
+
+  return 0;
 }
 
 /**
  *
  */
 void kspio_boardSendData(uint8_t * address, uint8_t len) {
-    uint8_t CS = len;
-    uint8_t i;
-    uart_putc(0xBE);
-    uart_putc(0xEF);
-    uart_putc(len);
+  uint8_t CS = len;
+  uint8_t i;
+  uart_putc(0xBE);
+  uart_putc(0xEF);
+  uart_putc(len);
 
-    for (i = 0; i < len; i++) {
-        CS ^= *(address + i);
-        uart_putc(*(address + i));
-    }
+  for (i = 0; i < len; i++) {
+    CS ^= *(address + i);
+    uart_putc(*(address + i));
+  }
 
-    uart_putc(CS);
+  uart_putc(CS);
 }
 
 //---- handshake --------------------------------------------------------------
@@ -185,12 +185,12 @@ void kspio_boardSendData(uint8_t * address, uint8_t len) {
  *
  */
 void kspio_handshake() {
-    kspio_hPacket.id = 0;
-    kspio_hPacket.M1 = 3;
-    kspio_hPacket.M2 = 1;
-    kspio_hPacket.M3 = 4;
+  kspio_hPacket.id = 0;
+  kspio_hPacket.M1 = 3;
+  kspio_hPacket.M2 = 1;
+  kspio_hPacket.M3 = 4;
 
-    kspio_boardSendData(details(kspio_hPacket));
+  kspio_boardSendData(details(kspio_hPacket));
 }
 
 //---- input ------------------------------------------------------------------
@@ -238,7 +238,7 @@ int8_t kspio_input() {
  *
  */
 void kspio_init() {
-    millisInit(); // configures TIMER2
-    kspio_initTXPackets();
+  millisInit(); // configures TIMER2
+  kspio_initTXPackets();
 }
 

@@ -93,24 +93,34 @@ void setDisplayData() {
 }
 
 void updateDisplayData() {
+	SPI_DATA_PORT &= ~(1 << SPI_PIN_SS);
+	// 7-segments
+	// @todo fill right values
+	// infolights
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 24));
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 16));
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 8));
+	SPI_transfer(dsky_display.infolights);	
+
+	SPI_DATA_PORT |= (1 << SPI_PIN_SS);
 }
 
 ISR(TIMER1_OVF_vect) {
-    uint8_t cSREG = SREG; 	// store register
-    cli();             		  // disable interrupts
+	uint8_t cSREG = SREG; 	// store register
+	cli();             		  // disable interrupts
 
-    dskyDisplay_digits.pos = (dskyDisplay_digits.pos + 1) % 10;
-		
-		SPI_DATA_PORT &= ~(1 << SPI_PIN_SS);
-    // 7-segments
-		// @todo fill right values
-    // infolights
-	  SPI_transfer((uint8_t) (dsky_display.infolights >> 24));
-	  SPI_transfer((uint8_t) (dsky_display.infolights >> 16));
-	  SPI_transfer((uint8_t) (dsky_display.infolights >> 8));
-	  SPI_transfer(dsky_display.infolights);	
+	dskyDisplay_digits.pos = (dskyDisplay_digits.pos + 1) % 10;
+	
+	SPI_DATA_PORT &= ~(1 << SPI_PIN_SS);
+	// 7-segments
+	// @todo fill right values
+	// infolights
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 24));
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 16));
+	SPI_transfer((uint8_t) (dsky_display.infolights >> 8));
+	SPI_transfer(dsky_display.infolights);	
 
-		SPI_DATA_PORT |= (1 << SPI_PIN_SS);
+	SPI_DATA_PORT |= (1 << SPI_PIN_SS);
 
-    SREG = cSREG;      // restore interrupt setting
+	SREG = cSREG;      // restore interrupt setting
 }

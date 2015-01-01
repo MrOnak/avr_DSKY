@@ -44,7 +44,6 @@ int main(void) {
 		}
 		
 		setInfolights();
-		updateInfolights();
 	}
 }
 
@@ -108,16 +107,6 @@ void setInfolights() {
     infoLights &= ~(1UL << DSKY_DISPLAY_INFOLIGHT_BIT_GLOC1);
   }
 }
-
-void updateInfolights() {
-	SPI_DATA_PORT &= ~(1 << SPI_PIN_SS);
-	SPI_transfer((uint8_t) (infoLights >> 24));
-	SPI_transfer((uint8_t) (infoLights >> 16));
-	SPI_transfer((uint8_t) (infoLights >> 8));
-	SPI_transfer(infoLights);	
-	SPI_DATA_PORT |= (1 << SPI_PIN_SS);
-}
-
 
 ISR(TIMER1_OVF_vect) {
 	uint8_t cSREG = SREG; 	// store register

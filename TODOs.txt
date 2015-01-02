@@ -1,18 +1,37 @@
-- change code to utilize hardware SPI to fill the shift registers
 - add display flicker as electric charge on vessel runs below 2% (or so)
-    requires a digital pin
-- verify move millis() interrupt to timer2
-- implement bar graph display. requires one PWM port per bar graph
+	requires a digital pin
+	
 - replace mock-up function ISR_TIMER0_OVF_vect() in dsky.c with proper
-    implementation
+	implementation
+	
+- implement restart command
+
+- change display.c to use SPI instead of bitbanging it
+
+- double check all timers and interrupts, adapt according to tests/combined
+
+- work on proper functionality for UPLINK ACTY info light
+
 - find out why the percentage calculation for the bargraphs is off by so
-  much (multiplyer of 147 instead of 255) and more importantly why the
+	much (multiplyer of 147 instead of 255) and more importantly why the
 	bargraph on timer2 is different from the other 2 - I suspect a conflict
 	with millis.c, which also uses the timer
+	
 - extend DSKY so that the warning light thresholds become configurable 
 	FROM WITHIN the DSKY itself.
+	
 - similar to making the warning light thresholds configurable it might
-  be feasible to have an option to enter vehicle launch mass and current
+	be feasible to have an option to enter vehicle launch mass and current
 	ISP (as examples) and have the DSKY calculate the net weight of the 
 	vehicle due to loss of fuel / rcs and calculate the deltaV available
 	and other statistics from that.
+
+- extend thresholds in dsky.h according to tests/combined
+
+- extend infoLights to uint32_t and adapt bitmask constants as per tests/combined
+	
+- add configurables
+	- all thresholds
+	- vehicle wet mass (assuming full tanks)
+	- vehicle ISP
+	- SOI

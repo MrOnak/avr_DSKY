@@ -10,16 +10,16 @@
  * @return unsigned long
  */
 unsigned long ulpow(int base, int exponent) {
-    unsigned long result = 1;
+	unsigned long result = 1;
 
-    while (exponent) {
-        if (exponent & 1) {
-            result *= base;
-        }
+	while (exponent) {
+		if (exponent & 1) {
+			result *= base;
+		}
 
-        exponent >>= 1;
-        base *= base;
-    }
+		exponent >>= 1;
+		base *= base;
+	}
 
-    return result;
+	return result;
 }

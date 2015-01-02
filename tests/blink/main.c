@@ -40,8 +40,8 @@ void init(void) {
 
 ISR(TIMER1_COMPA_vect) {
   if (PINB & (1 << LED)) {
-	PORTB &= ~(1 << LED);
+		PORTB &= ~(1 << LED);
   } else {
-	PORTB |= (1 << LED);
+		PORTB |= (1 << LED);
   }
 }

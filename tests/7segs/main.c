@@ -24,23 +24,6 @@ int main(void) {
 	uint8_t i = 9;
 
   while (1) {
-/*
-		i++;
-		infoLights = infoLights << 1;
-		
-		if (i == 10) {i = 0;}
-		if (infoLights == 0) {infoLights = 1;}
-	
-		_delay_ms(500);
-		SPI_DATA_PORT &= ~(1 << SPI_PIN_SS);
-		SPI_transfer((dskyDisplay_digits.sr2[i] << 4) | dskyDisplay_digits.sr1[i]);
-		SPI_transfer((dskyDisplay_digits.sr3[i] << 4) | dskyDisplay_digits.sr4[i]);
-		SPI_transfer((infoLights >> 24));
-		SPI_transfer((infoLights >> 16));
-		SPI_transfer((infoLights >> 8));
-		SPI_transfer(infoLights);	
-		SPI_DATA_PORT |= (1 << SPI_PIN_SS);	
-*/
 	}
 }
 

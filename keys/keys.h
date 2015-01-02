@@ -30,11 +30,10 @@
 #define DSKY_KEY_EIGHT  						8
 #define DSKY_KEY_NINE  							9
 #define DSKY_KEY_CLEAR  						'c'
-#define DSKY_KEY_PROCEED  						'p'
-#define DSKY_KEY_KEY_RELEASE  					'k'
+#define DSKY_KEY_PROCEED  					'p'
+#define DSKY_KEY_KEY_RELEASE  			'k'
 #define DSKY_KEY_ENTER  						'e'
 #define DSKY_KEY_RESET  						'r'
-
 
 extern void dskyKeyboard_init();
 extern char dskyKeyboard_getKey();

@@ -26,9 +26,9 @@ int main(void) {
   while (1) {
     kspio_input();
 	
-	OCR0A = (147 * (kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS));
-	OCR0B = (147 * (kspio_vData.MonoProp / kspio_vData.MonoPropTot));
-	OCR2B = (147 * (kspio_vData.ECharge / kspio_vData.EChargeTot));
+		OCR0A = (147 * (kspio_vData.LiquidFuelS / kspio_vData.LiquidFuelTotS));
+		OCR0B = (147 * (kspio_vData.MonoProp / kspio_vData.MonoPropTot));
+		OCR2B = (147 * (kspio_vData.ECharge / kspio_vData.EChargeTot));
   }
 }
 

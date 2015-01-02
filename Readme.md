@@ -37,24 +37,24 @@ keys and a joystick with 6 analogue axis and 4 buttons.
 The KSP DSKY project is licenced under GNU General Public License, version 2.
 
 The full text of the license can be found in the License.txt file and online:
-    http://opensource.org/licenses/GPL-2.0
+	http://opensource.org/licenses/GPL-2.0
 
 # Acknowledgements
 ./uart
 
 The UART library in use is based on a library written by Peter Fleury 
-    <pfleury@gmx.ch>   http://jump.to/fleury
-    his code was published under GNU General Public License, version 2.
+	<pfleury@gmx.ch>   http://jump.to/fleury
+	his code was published under GNU General Public License, version 2.
 
 The library was further extended by Tim Sharpe to include additional functions 
-    such as uart_available() and uart_flush(). (See uart.h for details).
-    His work is released under the GNU General Public License.
+	such as uart_available() and uart_flush(). (See uart.h for details).
+	His work is released under the GNU General Public License.
 
 Mr Sharpe's additions in turn are based on the Arduino HardwareSerial.h,
-    released under LGPL, version 2.1.
+	released under LGPL, version 2.1.
 	
 The full text of the license can be found in the ./uart folder and online:
-    http://opensource.org/licenses/GPL-2.0
+	http://opensource.org/licenses/GPL-2.0
 	
 ./kspio
 
@@ -64,7 +64,7 @@ https://github.com/MrOnak/avr_KSPIO
 It is licensed under Creative Commons Attribution (BY).
 
 The full text of the license can be found in the ./kspio folder and online:
-    http://creativecommons.org/licenses/by/4.0/legalcode
+	http://creativecommons.org/licenses/by/4.0/legalcode
 
 The original KSPIO code was developed as Arduino .ino code by 'Zitronen'
 under Creative Commons Attribution (BY). The development thread is here:

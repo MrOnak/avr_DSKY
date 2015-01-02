@@ -26,23 +26,23 @@ int main(void) {
   
   while (1) {
     _delay_ms(1000);
-	
-	bg1cur = (bg1max / 100) * percent;
-	bg2cur = (bg2max / 100) * percent;
-	bg3cur = (bg3max / 100) * percent;
-	
-	bg1 = 147 * (bg1cur / bg1max);
-	bg2 = 147 * (bg2cur / bg2max);
-	bg3 = 147 * (bg3cur / bg3max);
-	
-	OCR0A = bg1;
-	OCR0B = bg2;
-	OCR2B = bg3;
-	
-	percent += 10;
-	
-	if (percent == 110) {
-		percent = 0;
+		
+		bg1cur = (bg1max / 100) * percent;
+		bg2cur = (bg2max / 100) * percent;
+		bg3cur = (bg3max / 100) * percent;
+		
+		bg1 = 147 * (bg1cur / bg1max);
+		bg2 = 147 * (bg2cur / bg2max);
+		bg3 = 147 * (bg3cur / bg3max);
+		
+		OCR0A = bg1;
+		OCR0B = bg2;
+		OCR2B = bg3;
+		
+		percent += 10;
+		
+		if (percent == 110) {
+			percent = 0;
     }
   }
 }

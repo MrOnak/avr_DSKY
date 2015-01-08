@@ -1,10 +1,15 @@
 - add display flicker as electric charge on vessel runs below 2% (or so)
-	requires a digital pin
+	flicker should be possible by 
+	- toggling the DSP_ON pin
+	- sending 0x00000000 to the info lights and
+  - setting the bargraph PWM values to 0
 	
 - replace mock-up function ISR_TIMER0_OVF_vect() in dsky.c with proper
 	implementation
 	
 - implement restart command
+
+- evaluate setting a baud rate of 115200 to improve free MCU time
 
 - change display.c to use SPI instead of bitbanging it
 

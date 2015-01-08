@@ -201,7 +201,7 @@ void setDisplayData() {
 	dskyDisplay_digits.sr4[3] = ((uint32_t) (kspio_vData.PE / 1000) % 10);
 	dskyDisplay_digits.sr4[2] = ((uint32_t) (kspio_vData.PE / 100) % 10);
 	dskyDisplay_digits.sr4[1] = ((uint32_t) (kspio_vData.PE / 10) % 10);
-	dskyDisplay_digits.sr4[0] = ((uint32_t) kspio_vData.PE);
+	dskyDisplay_digits.sr4[0] = ((uint32_t) kspio_vData.PE % 10);
 }
 
 void clearRegisters() {
